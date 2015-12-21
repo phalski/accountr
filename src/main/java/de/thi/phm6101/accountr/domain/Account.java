@@ -3,17 +3,20 @@ package de.thi.phm6101.accountr.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by philipp on 08/12/15.
  */
 @Entity
-public class Account implements Serializable {
+@NamedQueries({
+        @NamedQuery(name = "findByName",
+                query = "SELECT t FROM Account as t WHERE t.name LIKE :name")
+})
+public class Account extends AbstractEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
 
     @OneToMany(mappedBy = "account")
     private List<Transaction> transactions;
@@ -24,15 +27,32 @@ public class Account implements Serializable {
     private String description;
 
     //
+    // CONSTRUCTION
+    //
+
+    public Account() {
+        transactions = new ArrayList<>();
+    }
+
+    //
     // PROPERTY ACCESS
     //
 
-    public long getId() {
-        return id;
+    public List<Transaction> getTransactions() {
+        return Collections.unmodifiableList(this.transactions);
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void addTransaction(Transaction transaction) {
+        if (!transactions.contains(transaction)) {
+            transaction.setAccount(this);
+            transactions.add(transaction);
+        }
+    }
+
+    public void removeTransaction(Transaction transaction) {
+        if (transactions.contains(transaction)) {
+            transactions.remove(transaction);
+        }
     }
 
     public String getName() {

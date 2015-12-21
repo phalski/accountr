@@ -1,6 +1,7 @@
 package de.thi.phm6101.accountr.web.model;
 
 import de.thi.phm6101.accountr.domain.Account;
+import de.thi.phm6101.accountr.domain.Transaction;
 import de.thi.phm6101.accountr.service.AccountrServiceBean;
 
 import org.apache.log4j.LogManager;
@@ -10,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,7 +37,7 @@ public class AccountsBean {
     }
 
     public void initialize() {
-        setFilteredAccounts(accountrServiceBean.findAll());
+        setFilteredAccounts(accountrServiceBean.accounts());
     }
 
     //
@@ -65,14 +67,19 @@ public class AccountsBean {
 
     public void doFilter() {
         LOGGER.info(String.format("Filtering results with filter: %s", getFilter()));
-        setFilteredAccounts(accountrServiceBean.findAll());
+        setFilteredAccounts(accountrServiceBean.accounts());
     }
 
     public String doInsert() {
         Account a = new Account();
         a.setName("First");
         a.setDescription("First account ever");
-        accountrServiceBean.doInsert(a);
+        Transaction t = new Transaction();
+        t.setDate(new Date());
+        t.setDescription("Test transaction");
+        a.addTransaction(t);
+        accountrServiceBean.insert(a);
+        accountrServiceBean.accounts();
         return "accounts";
     }
 
