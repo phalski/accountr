@@ -33,7 +33,7 @@ public class AccountsBean {
     private Account account;
 
     public AccountsBean() {
-        LOGGER.info("AccountsBean created");
+        LOGGER.debug("AccountsBean created");
     }
 
     public void initialize() {

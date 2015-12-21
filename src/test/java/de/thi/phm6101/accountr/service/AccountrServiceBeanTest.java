@@ -47,6 +47,21 @@ public class AccountrServiceBeanTest {
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
+    @Before
+    public void setUp() throws Exception {
+
+
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        // clear tables
+        for (Account account: accountrServiceBean.select()) {
+            accountrServiceBean.delete(account);
+        }
+
+    }
+
     @Test
     public void thatAccountCanBeAdded() throws Exception {
         Account account = new Account();
