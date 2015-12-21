@@ -1,11 +1,9 @@
 package de.thi.phm6101.accountr.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by philipp on 08/12/15.
@@ -17,17 +15,13 @@ public class Account implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @OneToMany(mappedBy = "account")
+    private List<Transaction> transactions;
+
     @NotNull
     private String name;
 
     private String description;
-
-    //
-    // CONSTRUCTION
-    //
-
-    public Account() {}
-
 
     //
     // PROPERTY ACCESS
