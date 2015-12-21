@@ -29,7 +29,7 @@ public class AccountrServiceBean {
 
     public List<Account> findAll() {
         TypedQuery<Account> query = em.createQuery("SELECT account FROM Account as account", Account.class);
-        LOGGER.info(String.format("Find all returned %d elements", query.getResultList().size()));
+        LOGGER.debug(String.format("Find all returned %d elements", query.getResultList().size()));
         return query.getResultList();
     }
 

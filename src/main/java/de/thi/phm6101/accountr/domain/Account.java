@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Created by philipp on 08/12/15.
  */
 @Entity
-public class Account implements Serializable{
+public class Account implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
