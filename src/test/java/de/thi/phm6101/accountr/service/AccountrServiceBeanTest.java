@@ -11,12 +11,14 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class AccountrServiceBeanTest {
 
     @Inject
     AccountrServiceBean accountrServiceBean;
+
 
     @Deployment
     public static WebArchive createDeployment() {
@@ -52,7 +55,7 @@ public class AccountrServiceBeanTest {
 
         accountrServiceBean.insert(account);
 
-        List<Account> accountList = accountrServiceBean.accounts();
+        List<Account> accountList = accountrServiceBean.accountList();
         assertNotEquals(0, accountList.size());
         assertNotNull(accountList.get(0).getId());
     }

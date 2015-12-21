@@ -37,7 +37,7 @@ public class AccountsBean {
     }
 
     public void initialize() {
-        setFilteredAccounts(accountrServiceBean.accounts());
+        setFilteredAccounts(accountrServiceBean.accountList());
     }
 
     //
@@ -67,19 +67,18 @@ public class AccountsBean {
 
     public void doFilter() {
         LOGGER.info(String.format("Filtering results with filter: %s", getFilter()));
-        setFilteredAccounts(accountrServiceBean.accounts());
+        setFilteredAccounts(accountrServiceBean.accountList());
     }
 
     public String doInsert() {
         Account a = new Account();
-        a.setName("First");
+        a.setName("First Account");
         a.setDescription("First account ever");
         Transaction t = new Transaction();
         t.setDate(new Date());
         t.setDescription("Test transaction");
         a.addTransaction(t);
         accountrServiceBean.insert(a);
-        accountrServiceBean.accounts();
         return "accounts";
     }
 

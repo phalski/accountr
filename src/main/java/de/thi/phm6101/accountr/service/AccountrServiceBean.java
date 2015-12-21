@@ -32,16 +32,10 @@ public class AccountrServiceBean {
         return dab.namedQuery(Account.class,"findByName", parameters);
     }
 
-    public List<Account> accounts() {
+    public List<Account> accountList() {
         List<Account> accounts = dab.getAll(Account.class);
         LOGGER.info(String.format("Find all returned %d elements", accounts.size()));
         return accounts;
-    }
-
-    public Account doInsert(Account account) {
-        dab.insert(account);
-        LOGGER.info(String.format("Inserted Account with id %d", account.getId()));
-        return account;
     }
 
     public Account insert(Account account) throws EntityAlreadyExistsException {
@@ -52,4 +46,5 @@ public class AccountrServiceBean {
         LOGGER.info(String.format("Inserted Account '%s' with id '%s'", account.getName(), account.getId()));
         return account;
     }
+
 }

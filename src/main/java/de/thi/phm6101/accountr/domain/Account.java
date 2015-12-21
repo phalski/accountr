@@ -18,7 +18,7 @@ import java.util.List;
 public class Account extends AbstractEntity{
 
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 
     @NotNull
