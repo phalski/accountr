@@ -50,7 +50,11 @@ public class AccountBean implements Serializable {
     public void initialize() {
         Optional<Account> optionalAccount = accountrServiceBean.selectAccount(accountId);
         setAccount(optionalAccount.orElse(new Account()));
-        LOGGER.info("initialized");
+        if (optionalAccount.isPresent()) {
+            LOGGER.info(String.format("initialized with account id %s", accountId));
+        } else {
+            LOGGER.info("initialized with new account");
+        }
     }
 
     public String doInsertOrUpdate() {

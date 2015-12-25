@@ -12,7 +12,7 @@
 
 <ui:define name="content">
 
-    <h:form prependId="false">
+    <h:form>
         <h:inputText value="#{accountsBean.filter}" id="filter" >
             <f:passThroughAttribute name="placeholder" value="#{msg['page.accounts.filter.placeholder']}" />
         </h:inputText>
@@ -24,7 +24,9 @@
     </h:form>
 
     <ui:repeat value="#{accountsBean.filteredAccounts}" var="account">
-        <p>#{account.name} #{account.description}</p>
+        <p><h:link outcome="account" value="#{account.name}">
+            <f:param name="accountId" value="#{account.id}"/>
+        </h:link></p>
     </ui:repeat>
 
 
