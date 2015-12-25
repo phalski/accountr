@@ -7,7 +7,7 @@ import de.thi.phm6101.accountr.service.AccountrServiceBean;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Named
 @ViewScoped
-public class AccountsBean {
+public class AccountsBean implements Serializable {
 
     private static final Logger LOGGER = LogManager.getLogger(AccountsBean.class);
 
@@ -32,12 +32,9 @@ public class AccountsBean {
 
     private Account account;
 
-    public AccountsBean() {
-        LOGGER.debug("AccountsBean created");
-    }
 
     public void initialize() {
-        setFilteredAccounts(accountrServiceBean.accountList());
+        setFilteredAccounts(accountrServiceBean.selectAccount());
     }
 
     //
@@ -53,12 +50,13 @@ public class AccountsBean {
     }
 
     public List<Account> getfilteredAccounts() {
-        return filteredAccounts;
+        return accountrServiceBean.selectAccount();
     }
 
     public void setFilteredAccounts(List<Account> filteredAccounts) {
         this.filteredAccounts = filteredAccounts;
     }
+
 
 
     //
@@ -67,7 +65,7 @@ public class AccountsBean {
 
     public void doFilter() {
         LOGGER.info(String.format("Filtering results with filter: %s", getFilter()));
-        setFilteredAccounts(accountrServiceBean.accountList());
+        setFilteredAccounts(accountrServiceBean.selectAccount());
     }
 
     public String doInsert() {

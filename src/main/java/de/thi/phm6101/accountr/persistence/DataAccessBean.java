@@ -53,4 +53,8 @@ public class DataAccessBean {
         em.remove(em.contains(t) ? t : em.merge(t));
     }
 
+    public <T extends AbstractEntity> boolean exists(T t) {
+        return getAll(t.getClass()).contains(t);
+    }
+
 }

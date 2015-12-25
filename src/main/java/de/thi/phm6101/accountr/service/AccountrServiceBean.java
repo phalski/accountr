@@ -1,7 +1,7 @@
 package de.thi.phm6101.accountr.service;
 
 import de.thi.phm6101.accountr.domain.Account;
-import de.thi.phm6101.accountr.exception.EntityAlreadyExistsException;
+import de.thi.phm6101.accountr.domain.Transaction;
 import de.thi.phm6101.accountr.persistence.DataAccessBean;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -25,28 +25,22 @@ public class AccountrServiceBean {
     @Inject
     private DataAccessBean dab;
 
-    public List<Account> accountList() {
-        List<Account> accounts = dab.getAll(Account.class);
-        LOGGER.info(String.format("Find all returned %d elements", accounts.size()));
-        return accounts;
-    }
-
-    public Optional<Account> select(long id) {
+    public Optional<Account> selectAccount(long id) {
         return Optional.ofNullable(dab.get(Account.class, id));
     }
 
-    public List<Account> select() {
+    public List<Account> selectAccount() {
         return dab.getAll(Account.class);
     }
 
-    public List<Account> select(String name) {
+    public List<Account> selectAccount(String name) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
         return dab.namedQuery(Account.class,"findByName", parameters);
     }
 
     public Account insert(Account account) throws EntityExistsException {
-        if (dab.getAll(Account.class).contains(account)) {
+        if (dab.exists(account)) {
             throw new EntityExistsException(String.format("Account '%s' already exists.", account.getName()));
         }
         dab.insert(account);
@@ -55,7 +49,7 @@ public class AccountrServiceBean {
     }
 
     public Account update(Account account) throws EntityNotFoundException {
-        if (!dab.getAll(Account.class).contains(account)) {
+        if (!dab.exists(account)) {
             throw new EntityNotFoundException(String.format("Account '%s' does not exist.", account.getName()));
         }
         dab.update(account);
@@ -64,10 +58,14 @@ public class AccountrServiceBean {
     }
 
     public void delete(Account account) throws EntityNotFoundException {
-        if (!dab.getAll(Account.class).contains(account)) {
+        if (!dab.exists(account)) {
             throw new EntityNotFoundException(String.format("Account '%s' does not exist.", account.getName()));
         }
         dab.delete(account);
+    }
+
+    public boolean exists(Account account) {
+        return dab.exists(account);
     }
 
 }
