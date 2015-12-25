@@ -3,6 +3,7 @@ package de.thi.phm6101.accountr.web.model;
 import de.thi.phm6101.accountr.domain.Account;
 import de.thi.phm6101.accountr.domain.Transaction;
 import de.thi.phm6101.accountr.service.AccountrServiceBean;
+import net.bootsfaces.render.A;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -28,15 +29,29 @@ public class TransactionBean implements Serializable {
 
     @PostConstruct
     public void initialize() {
-        Optional<Transaction> transactionOptional = accountrServiceBean.selectTransaction(transactionId);
-        setTransaction(transactionOptional.orElse(new Transaction()));
-        LOGGER.info("initialized");
+        Optional<Account> accountOptional = accountrServiceBean.selectAccount(accountId);
+        if (accountOptional.isPresent()) {
+            account = accountOptional.get();
+            Optional<Transaction> transactionOptional = accountrServiceBean.selectTransaction(transactionId);
+            isNewTransaction = !transactionOptional.isPresent();
+            setTransaction(transactionOptional.orElse(new Transaction()));
+            if (transactionOptional.isPresent()) {
+                LOGGER.info(String.format("initialize: Account-ID: %d, Transaction-ID: %d", accountId, transactionId));
+            } else {
+                LOGGER.info(String.format("initialize: Account-ID: %d, Transaction-ID: -", accountId));
+            }
+        }
+
     }
 
 
     private long accountId;
 
     private Account account;
+
+    private boolean isInitialized = false;
+
+    private boolean isNewTransaction;
 
     private long transactionId;
 
@@ -61,6 +76,14 @@ public class TransactionBean implements Serializable {
         this.account = account;
     }
 
+    public boolean getIsInitialized() {
+        return isInitialized;
+    }
+
+    public boolean getIsNewTransaction() {
+        return isNewTransaction;
+    }
+
     public long getTransactionId() {
         return transactionId;
     }
@@ -79,13 +102,29 @@ public class TransactionBean implements Serializable {
 
     /// ACTION METHODS
 
-    public String doInsertOrUpdate() {
-        Optional<Account> accountOptional = Optional.ofNullable(getAccount());
-        if (accountOptional.isPresent()) {
-            accountrServiceBean.update(accountOptional.get());
+    public String doSave() {
+        if (isNewTransaction) {
+            account.addTransaction(transaction);
+            accountrServiceBean.update(account);
+        } else {
+            accountrServiceBean.updateTransaction(transaction);
         }
 
-        return null;
+        return String.format("account.xhtml?faces-redirect=true&accountId=%d", account.getId());
+    }
+
+    public String doCancel() {
+        return String.format("account.xhtml?faces-redirect=true&accountId=%d", account.getId());
+    }
+
+    public String doDelete(Transaction transaction) {
+        LOGGER.info(String.format("Deleting transaction %d", transaction.getId()));
+        if (accountrServiceBean.exists(transaction.getAccount())) {
+            Account account = transaction.getAccount();
+            account.removeTransaction(transaction);
+            accountrServiceBean.update(account);
+        }
+        return String.format("account.xhtml?faces-redirect=true&accountId=%d", account.getId());
     }
 
 }

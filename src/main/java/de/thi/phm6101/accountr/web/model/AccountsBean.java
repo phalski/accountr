@@ -70,11 +70,12 @@ public class AccountsBean implements Serializable {
 
     public String doInsert() {
         Account a = new Account();
-        a.setName("First Account");
+        a.setName("Second Account");
         a.setDescription("First account ever");
         Transaction t = new Transaction();
         t.setDate(new Date());
         t.setDescription("Test transaction");
+        t.setAmount(13.37);
         a.addTransaction(t);
         accountrServiceBean.insert(a);
         return "accounts";

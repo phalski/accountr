@@ -3,25 +3,82 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui">
 
-    <ui:param name="title" value="#{msg['view.account-list.title']}"/>
+    <ui:param name="title" value="#{accountBean.account.name}"/>
 
     <ui:define name="head">
         <f:metadata>
             <f:viewParam name="accountId" value="#{accountBean.accountId}" />
             <f:viewAction action="#{accountBean.initialize}" />
+            <f:viewAction action="#{transactionBean.initialize}" />
         </f:metadata>
     </ui:define>
 
     <ui:define name="content">
 
-        <p>#{accountBean.account.name}</p>
-
-        <ui:repeat value="#{accountBean.account.transactions}" var="transaction">
-            <p>#{transaction.description}"</p>
-        </ui:repeat>
-
+        <b:container>
+            <b:row>
+                <b:column>
+                    <h1>#{accountBean.account.name}</h1>
+                    <p>#{accountBean.account.description}</p>
+                </b:column>
+                <b:column>
+                    <p><h:outputText value="#{msg['domain.account.transactions.label']}"/></p>
+                    <p>
+                        <b:button look="primary" value="Add" outcome="transaction-form">
+                            <f:param name="accountId" value="#{accountBean.account.id}"/>
+                        </b:button>
+                    </p>
+                    <h:dataTable value="#{accountBean.account.transactions}" var="transaction"
+                                 styleClass="table"
+                                 headerClass="employeeTableHeader"
+                                 rowClasses="employeeTableOddRow,employeeTableEvenRow">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['domain.transaction.description.label']}"/>
+                            </f:facet>
+                            <h:outputText value="#{transaction.description}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['domain.transaction.date.label']}"/>
+                            </f:facet>
+                            <h:outputText value="#{transaction.date}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['domain.transaction.receipt.label']}"/>
+                            </f:facet>
+                            <h:link outcome="#">
+                                <i class="glyphicon glyphicon-list-alt"/>
+                            </h:link>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{msg['domain.transaction.amount.label']}"/>
+                            </f:facet>
+                            <h:outputText value="#{transaction.amount}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                            </f:facet>
+                            <p class="pull-right">
+                            <h:link outcome="transaction-form">
+                                <f:param name="accountId" value="#{accountBean.account.id}"/>
+                                <f:param name="transactionId" value="#{transaction.id}"/>
+                                <i class="glyphicon glyphicon-edit"/>
+                            </h:link>
+                            <h:outputText value=" "/>
+                            <h:link action="#{transactionBean.doDelete(transaction)}">
+                                <i class="glyphicon glyphicon-remove"/>
+                            </h:link>
+                            </p>
+                        </h:column>
+                    </h:dataTable>
+                </b:column>
+            </b:row>
+        </b:container>
 
     </ui:define>
 

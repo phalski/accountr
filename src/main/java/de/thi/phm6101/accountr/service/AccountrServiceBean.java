@@ -68,4 +68,32 @@ public class AccountrServiceBean {
         return dab.exists(account);
     }
 
+
+
+
+
+
+    public Optional<Transaction> selectTransaction(long id) {
+        return Optional.ofNullable(dab.get(Transaction.class, id));
+    }
+
+    public List<Transaction> selectTransaction() {
+        return dab.getAll(Transaction.class);
+    }
+
+    public List<Transaction> selectTransaction(String name) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("name", name);
+        return dab.namedQuery(Transaction.class,"findByName", parameters);
+    }
+
+    public Transaction updateTransaction(Transaction transaction) throws EntityNotFoundException {
+        if (!dab.exists(transaction)) {
+            throw new EntityNotFoundException(String.format("Transaction '%s' does not exist.", transaction.getDescription()));
+        }
+        dab.update(transaction);
+        LOGGER.info(String.format("Updated Transaction '%s'", transaction.getDescription()));
+        return transaction;
+    }
+
 }

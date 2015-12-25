@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition template="/META-INF/template/page.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:param name="title" value="#{msg['page.accounts.title']}"/>
+
+    <ui:define name="head">
+        <f:metadata>
+            <f:viewParam name="accountId" value="#{accountBean.accountId}" />
+            <f:viewAction action="#{accountBean.initialize}" />
+        </f:metadata>
+    </ui:define>
+
+    <ui:define name="content">
+        <b:container>
+            <b:row>
+                <b:column>
+                    <h1>
+                        <h:outputText rendered="#{accountBean.isNewAccount}" value="#{msg['action.add']} #{msg['domain.account']}"/>
+                        <h:outputText rendered="#{!accountBean.isNewAccount}" value="#{msg['action.edit']} #{msg['domain.account']}"/>
+                    </h1>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column>
+                    <h:form>
+                        <b:panelGrid colSpans="2,10">
+                            <h:outputLabel value="#{msg['domain.account.name.label']}" />
+                            <h:inputText value="#{accountBean.account.name}"/>
+                            <h:outputLabel value="#{msg['domain.transaction.description.label']}" />
+                            <h:inputText value="#{accountBean.account.description}"/>
+                            <p class="pull-right">
+                                <b:commandButton value="#{msg['action.cancel']}"/>
+                                <b:commandButton look="primary" value="#{msg['action.save']}" action="#{accountBean.doInsertOrUpdate}"/>
+                            </p>
+                        </b:panelGrid>
+                    </h:form>
+                </b:column>
+            </b:row>
+        </b:container>
+    </ui:define>
+
+</ui:composition>

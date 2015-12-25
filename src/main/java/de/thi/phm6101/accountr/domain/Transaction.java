@@ -2,6 +2,7 @@ package de.thi.phm6101.accountr.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -15,8 +16,10 @@ public class Transaction extends AbstractEntity {
     @NotNull
     private Account account;
 
+    private double amount;
+
     @NotNull
-    private Date date;
+    private Date date = Date.from(Instant.now());
 
     @NotNull
     private String description;
@@ -28,6 +31,14 @@ public class Transaction extends AbstractEntity {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     public Date getDate() {
@@ -54,17 +65,22 @@ public class Transaction extends AbstractEntity {
 
         Transaction that = (Transaction) o;
 
-        if (!getAccount().equals(that.getAccount())) return false;
-        if (!getDate().equals(that.getDate())) return false;
-        return getDescription().equals(that.getDescription());
+        if (Double.compare(that.getAmount(), getAmount()) != 0) return false;
+        if (getAccount() != null ? !getAccount().equals(that.getAccount()) : that.getAccount() != null) return false;
+        if (getDate() != null ? !getDate().equals(that.getDate()) : that.getDate() != null) return false;
+        return getDescription() != null ? getDescription().equals(that.getDescription()) : that.getDescription() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = getAccount().hashCode();
-        result = 31 * result + getDate().hashCode();
-        result = 31 * result + getDescription().hashCode();
+        int result;
+        long temp;
+        result = getAccount() != null ? getAccount().hashCode() : 0;
+        temp = Double.doubleToLongBits(getAmount());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (getDate() != null ? getDate().hashCode() : 0);
+        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
         return result;
     }
 }

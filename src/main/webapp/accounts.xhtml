@@ -3,14 +3,41 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui">
 
-<ui:param name="title" value="#{msg['view.account-list.title']}"/>
+<ui:param name="title" value="#{msg['page.accounts.title']}"/>
 
 <ui:define name="head">
 </ui:define>
 
 <ui:define name="content">
+    <b:container>
+        <b:row>
+            <b:column>
+                <p>
+                <b:button look="primary" value="Add" outcome="account-form">
+                    <f:param name="accountId" value="#{accountBean.account.id}"/>
+                </b:button>
+                </p>
+            </b:column>
+        </b:row>
+        <b:row>
+            <ui:repeat value="#{accountsBean.filteredAccounts}" var="account">
+                <b:column span="3">
+                    <b:panel collapsible="false">
+                        <f:facet name="heading">
+                            <h:link outcome="account" value="#{account.name}">
+                                <f:param name="accountId" value="#{account.id}"/>
+                            </h:link>
+                            <!--<b:iconAwesome name="edit"/>-->
+                        </f:facet>
+                        <h:outputText value="#{account.description}"/>
+
+                    </b:panel>
+                </b:column>
+            </ui:repeat>
+        </b:row>
+    </b:container>
 
     <h:form>
         <h:inputText value="#{accountsBean.filter}" id="filter" >
@@ -18,16 +45,6 @@
         </h:inputText>
         <h:commandButton action="#{accountsBean.doFilter}" id="filterButton" value="#{msg['page.accounts.filterButton.value']}"/>
     </h:form>
-
-    <h:form prependId="false">
-        <h:commandButton action="#{accountsBean.doInsert}" value="#{msg['page.accounts.filterButton.value']}"/>
-    </h:form>
-
-    <ui:repeat value="#{accountsBean.filteredAccounts}" var="account">
-        <p><h:link outcome="account" value="#{account.name}">
-            <f:param name="accountId" value="#{account.id}"/>
-        </h:link></p>
-    </ui:repeat>
 
 
     <h:form id="form" enctype="multipart/form-data">

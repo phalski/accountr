@@ -28,6 +28,8 @@ public class AccountBean implements Serializable {
 
     private long accountId;
 
+    private boolean isNewAccount;
+
     public long getAccountId() {
         return accountId;
     }
@@ -44,16 +46,22 @@ public class AccountBean implements Serializable {
         this.account = account;
     }
 
+    public boolean getIsNewAccount() {
+        return isNewAccount;
+    }
+
     /// LOGIC
 
     @PostConstruct
     public void initialize() {
         Optional<Account> optionalAccount = accountrServiceBean.selectAccount(accountId);
         setAccount(optionalAccount.orElse(new Account()));
+        isNewAccount = !optionalAccount.isPresent();
+
         if (optionalAccount.isPresent()) {
-            LOGGER.info(String.format("initialized with account id %s", accountId));
+            LOGGER.info(String.format("initialize: Account-ID: %s", accountId));
         } else {
-            LOGGER.info("initialized with new account");
+            LOGGER.info("initialize: Account-ID: -");
         }
     }
 
@@ -65,7 +73,7 @@ public class AccountBean implements Serializable {
             accountrServiceBean.insert(account);
         }
 
-        return null;
+        return "accounts";
     }
 
     public String doDelete() {
