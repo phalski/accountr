@@ -18,6 +18,17 @@
         <b:container>
             <b:row>
                 <b:column>
+                    <ol class="breadcrumb">
+                        <li><h:link outcome="accounts" value="#{msg['page.accounts.title']}"/></li>
+                        <li class="active">
+                            <h:outputText rendered="#{accountBean.isNewAccount}" value="#{msg['page.account.new']}"/>
+                            <h:outputText rendered="#{!accountBean.isNewAccount}" value="#{accountBean.account.name}"/>
+                        </li>
+                    </ol>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column>
                     <h1>
                         <h:outputText rendered="#{accountBean.isNewAccount}" value="#{msg['action.add']} #{msg['domain.account']}"/>
                         <h:outputText rendered="#{!accountBean.isNewAccount}" value="#{msg['action.edit']} #{msg['domain.account']}"/>

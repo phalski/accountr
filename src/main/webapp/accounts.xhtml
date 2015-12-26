@@ -8,22 +8,44 @@
 <ui:param name="title" value="#{msg['page.accounts.title']}"/>
 
 <ui:define name="head">
+    <f:metadata>
+        <f:viewParam name="search" value="#{accountBean.search}" />
+        <f:viewAction action="#{accountBean.initializeList}" />
+    </f:metadata>
 </ui:define>
 
 <ui:define name="content">
     <b:container>
         <b:row>
             <b:column>
+                <h1>
+                    <h:outputText value="#{msg['page.accounts.title']}"/>
+                </h1>
+            </b:column>
+        </b:row>
+        <b:row>
+            <b:column>
                 <p>
-                <b:button look="primary" value="Add" outcome="account-form">
-                    <f:param name="accountId" value="#{accountBean.account.id}"/>
-                </b:button>
+                    <h:form class="form-inline">
+                        <div class="form-group">
+                            <b:button look="primary" value="Add" outcome="account-form">
+                                <f:param name="accountId" value="#{accountBean.account.id}"/>
+                            </b:button>
+                        </div>
+                        <div class="pull-right">
+                        <div class="form-group">
+                            <h:inputText styleClass="form-control" placeholder="#{msg['page.accounts.search.placeholder']}"
+                                         value="#{accountBean.search}"/>
+                            <b:commandButton action="#{accountBean.doSearch}" value="#{msg['action.search']}"/>
+                        </div>
+                        </div>
+                    </h:form>
                 </p>
             </b:column>
         </b:row>
         <b:row>
-            <ui:repeat value="#{accountsBean.filteredAccounts}" var="account">
-                <b:column span="3">
+            <ui:repeat value="#{accountBean.accountList}" var="account">
+                <b:column span="4">
                     <b:panel collapsible="false">
                         <f:facet name="heading">
                             <h:link outcome="account" value="#{account.name}">
@@ -38,21 +60,6 @@
             </ui:repeat>
         </b:row>
     </b:container>
-
-    <h:form>
-        <h:inputText value="#{accountsBean.filter}" id="filter" >
-            <f:passThroughAttribute name="placeholder" value="#{msg['page.accounts.filter.placeholder']}" />
-        </h:inputText>
-        <h:commandButton action="#{accountsBean.doFilter}" id="filterButton" value="#{msg['page.accounts.filterButton.value']}"/>
-    </h:form>
-
-
-    <h:form id="form" enctype="multipart/form-data">
-        <h:inputFile id="file" value="#{bean.file}"/>
-        <h:commandButton value="Upload"
-                         action="#{bean.upload}"/>
-    </h:form>
-
 
 </ui:define>
 

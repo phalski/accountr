@@ -13,6 +13,7 @@ import javax.inject.Named;
 import javax.persistence.EntityExistsException;
 import javax.validation.constraints.Past;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 
 @Named
@@ -28,7 +29,11 @@ public class AccountBean implements Serializable {
 
     private long accountId;
 
+    private List<Account> accountList;
+
     private boolean isNewAccount;
+
+    private String search = "";
 
     public long getAccountId() {
         return accountId;
@@ -50,6 +55,18 @@ public class AccountBean implements Serializable {
         return isNewAccount;
     }
 
+    public List<Account> getAccountList() {
+        return accountList;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
+
     /// LOGIC
 
     @PostConstruct
@@ -63,6 +80,14 @@ public class AccountBean implements Serializable {
         } else {
             LOGGER.info("initialize: Account-ID: -");
         }
+    }
+
+    public void initializeList() {
+        accountList = accountrServiceBean.selectAccount();
+    }
+
+    public String doSearch() {
+        return String.format("accounts.xhtml?faces-redirect=true&search=%s", getSearch());
     }
 
     public String doInsertOrUpdate() {

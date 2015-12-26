@@ -20,6 +20,14 @@
         <b:container>
             <b:row>
                 <b:column>
+                    <ol class="breadcrumb">
+                        <li><h:link outcome="accounts" value="#{msg['page.accounts.title']}"/></li>
+                        <li class="active"><h:outputText value="#{accountBean.account.name}"/></li>
+                    </ol>
+                </b:column>
+            </b:row>
+            <b:row>
+                <b:column>
                     <h1>#{accountBean.account.name}</h1>
                     <p>#{accountBean.account.description}</p>
                 </b:column>
