@@ -71,17 +71,17 @@
                         <h:column>
                             <f:facet name="header">
                             </f:facet>
-                            <p class="pull-right">
+                            <h:form class="pull-right">
                             <h:link outcome="transaction-form">
                                 <f:param name="accountId" value="#{accountBean.account.id}"/>
                                 <f:param name="transactionId" value="#{transaction.id}"/>
                                 <i class="glyphicon glyphicon-edit"/>
                             </h:link>
                             <h:outputText value=" "/>
-                            <h:link action="#{transactionBean.doDelete(transaction)}">
+                            <h:commandLink action="#{transactionBean.doDelete(transaction)}">
                                 <i class="glyphicon glyphicon-remove"/>
-                            </h:link>
-                            </p>
+                            </h:commandLink>
+                            </h:form>
                         </h:column>
                     </h:dataTable>
                 </b:column>

@@ -98,13 +98,14 @@ public class AccountBean implements Serializable {
             accountrServiceBean.insert(account);
         }
 
-        return "accounts";
+        return "accounts.xhtml?faces-redirect=true";
     }
 
-    public String doDelete() {
+    public String doDelete(Account account) {
+        LOGGER.info(String.format("doDelete: accountId:%s", account.getId()));
         if (accountrServiceBean.exists(account)) {
             accountrServiceBean.delete(account);
         }
-        return null;
+        return "accounts.xhtml?faces-redirect=true";
     }
 }

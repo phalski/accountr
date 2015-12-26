@@ -96,4 +96,16 @@ public class AccountrServiceBean {
         return transaction;
     }
 
+    public void deleteTransaction(Transaction transaction) throws EntityNotFoundException {
+        if (!dab.exists(transaction)) {
+            throw new EntityNotFoundException(String.format("Account '%s' does not exist.", transaction.getDescription()));
+        }
+        dab.delete(transaction);
+    }
+
+    public boolean existsTransaction(Transaction transaction) {
+        return dab.exists(transaction);
+    }
+
+
 }

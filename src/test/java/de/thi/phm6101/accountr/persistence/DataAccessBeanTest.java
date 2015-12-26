@@ -149,7 +149,6 @@ public class DataAccessBeanTest {
         Account account = validAccountList.get(0);
         Account duplicate = validAccountList.get(0);
         dataAccessBean.insert(account);
-
         dataAccessBean.insert(duplicate);
     }
 
@@ -201,6 +200,19 @@ public class DataAccessBeanTest {
         assertEquals("Transaction does not match inserted transaction", transaction, receivedTransaction);
         assertEquals("Transaction is not owned by account", account, transaction.getAccount());
         assertNotNull("Transaction has no id", transaction.getId());
+
+    }
+
+    @Test
+    public void thatTransactionCanBeDeleted() throws Exception {
+        Account account = validAccountList.get(0);
+        Transaction transaction = validTransactionList.get(0);
+        dataAccessBean.insert(account);
+        account.addTransaction(transaction);
+        dataAccessBean.update(account);
+        Account receivedAccount = dataAccessBean.get(Account.class, account.getId());
+        Transaction receivedTransaction = receivedAccount.getTransactions().get(0);
+
 
     }
 }

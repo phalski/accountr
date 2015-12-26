@@ -119,12 +119,18 @@ public class TransactionBean implements Serializable {
 
     public String doDelete(Transaction transaction) {
         LOGGER.info(String.format("Deleting transaction %d", transaction.getId()));
-        if (accountrServiceBean.exists(transaction.getAccount())) {
-            Account account = transaction.getAccount();
-            account.removeTransaction(transaction);
-            accountrServiceBean.update(account);
+
+        if (accountrServiceBean.existsTransaction(transaction)) {
+            accountrServiceBean.deleteTransaction(transaction);
         }
-        return String.format("account.xhtml?faces-redirect=true&accountId=%d", account.getId());
+//        if (accountrServiceBean.exists(transaction.getAccount())) {
+//            Account account = transaction.getAccount();
+//            account.removeTransaction(transaction);
+//            this.account = accountrServiceBean.update(account);
+//        } else {
+//            LOGGER.warn("doDelete: Transaction has no account");
+//        }
+        return String.format("account.xhtml?faces-redirect=true&accountId=%d", transaction.getAccount().getId());
     }
 
 }

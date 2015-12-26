@@ -47,13 +47,25 @@
             <ui:repeat value="#{accountBean.accountList}" var="account">
                 <b:column span="4">
                     <b:panel collapsible="false">
-                        <f:facet name="heading">
-                            <h:link outcome="account" value="#{account.name}">
+                            <h:form styleClass="pull-right">
+                                <h:link outcome="account-form">
                                 <f:param name="accountId" value="#{account.id}"/>
+                                <i class="glyphicon glyphicon-edit"/>
                             </h:link>
-                            <!--<b:iconAwesome name="edit"/>-->
-                        </f:facet>
-                        <h:outputText value="#{account.description}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{accountBean.doDelete(account)}">
+                                <i class="glyphicon glyphicon-remove"/>
+                            </h:commandLink>
+                            </h:form>
+                        <h2>
+                        <h:link outcome="account" value="#{account.name}">
+                            <f:param name="accountId" value="#{account.id}"/>
+                        </h:link>
+                        </h2>
+
+                        <p>
+                            <h:outputText value="#{account.description}"/>
+                        </p>
 
                     </b:panel>
                 </b:column>

@@ -74,4 +74,10 @@ public class AccountrServiceBeanTest {
         assertNotEquals(0, accountList.size());
         assertNotNull(accountList.get(0).getId());
     }
+
+    @Test
+    public void thatAccountCanBeDeleted() throws Exception {
+
+    }
+
 }
