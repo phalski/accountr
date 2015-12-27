@@ -1,5 +1,7 @@
 package de.thi.phm6101.accountr.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
@@ -14,6 +16,7 @@ public class Transaction extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @NotNull
+    @JsonBackReference
     private Account account;
 
     private double amount;

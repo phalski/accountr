@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 /**
  * Created by philipp on 08/12/15.
  */
@@ -21,6 +23,7 @@ public class Account extends AbstractEntity{
 
 
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Transaction> transactions;
 
     @NotNull
