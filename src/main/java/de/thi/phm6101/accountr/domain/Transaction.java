@@ -12,7 +12,7 @@ import java.util.Date;
 @Entity
 public class Transaction extends AbstractEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @NotNull
     private Account account;
 
@@ -31,6 +31,9 @@ public class Transaction extends AbstractEntity {
 
     public void setAccount(Account account) {
         this.account = account;
+        if (!this.account.getTransactions().contains(this)) {
+            this.account.addTransaction(this);
+        }
     }
 
     public double getAmount() {

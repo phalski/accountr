@@ -6,13 +6,16 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.transaction.UserTransaction;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Stateless
 public class DataAccessBean {
@@ -54,7 +57,7 @@ public class DataAccessBean {
     }
 
     public <T extends AbstractEntity> boolean exists(T t) {
-        return getAll(t.getClass()).contains(t);
+        return Optional.ofNullable(em.find(t.getClass(), t.getId())).isPresent();
     }
 
 }

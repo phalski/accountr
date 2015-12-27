@@ -212,7 +212,5 @@ public class DataAccessBeanTest {
         dataAccessBean.update(account);
         Account receivedAccount = dataAccessBean.get(Account.class, account.getId());
         Transaction receivedTransaction = receivedAccount.getTransactions().get(0);
-
-
     }
 }

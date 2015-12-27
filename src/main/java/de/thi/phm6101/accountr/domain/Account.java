@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /**
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
 public class Account extends AbstractEntity{
 
 
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions;
 
     @NotNull
@@ -44,10 +45,16 @@ public class Account extends AbstractEntity{
     }
 
     public void addTransaction(Transaction transaction) {
-        if (!transactions.contains(transaction)) {
+        this.transactions.add(transaction);
+        if (transaction.getAccount() != this) {
             transaction.setAccount(this);
-            transactions.add(transaction);
         }
+    }
+
+    public Optional<Transaction> getTransaction(long id) {
+        return getTransactions().stream()
+                .filter(p -> p.getId() == id)
+                .findFirst();
     }
 
     public void removeTransaction(Transaction transaction) {
