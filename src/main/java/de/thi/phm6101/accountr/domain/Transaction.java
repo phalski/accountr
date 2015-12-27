@@ -24,6 +24,8 @@ public class Transaction extends AbstractEntity {
     @NotNull
     private String description;
 
+    private String receiptFileName;
+
 
     public Account getAccount() {
         return account;
@@ -60,6 +62,17 @@ public class Transaction extends AbstractEntity {
         this.description = description;
     }
 
+    public String getReceiptFileName() {
+        return receiptFileName;
+    }
+
+    public boolean getHasReceipt() {
+        return receiptFileName != null && !receiptFileName.isEmpty();
+    }
+
+    public void setReceiptFileName(String receiptFileName) {
+        this.receiptFileName = receiptFileName;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -6,18 +6,15 @@ import de.thi.phm6101.accountr.domain.EntityFactory;
 import de.thi.phm6101.accountr.domain.Transaction;
 import de.thi.phm6101.accountr.persistence.DataAccessBean;
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.graphene.shaded.net.sf.cglib.proxy.Factory;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
@@ -28,7 +25,6 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
@@ -119,7 +115,7 @@ public class AccountrServiceBeanTest {
 
     @Test
     public void thatAllAccountsCanBeSelected() throws Exception {
-        List<Account> accountList = accountrServiceBean.selectAccount();
+        List<Account> accountList = accountrServiceBean.select();
 
         assertEquals("Account list does not contain all elements", accountList.size(), NUMBER_OF_ACCOUNTS);
     }
@@ -129,7 +125,7 @@ public class AccountrServiceBeanTest {
         Account account = EntityFactory.newAccount();
         accountrServiceBean.insert(account);
 
-        List<Account> accountList = accountrServiceBean.selectAccount(account.getName());
+        List<Account> accountList = accountrServiceBean.select(account.getName());
 
         assertEquals("Invalid element count", accountList.size(), 1);
         assertEquals("Accounts are not equal", accountList.get(0), account);
@@ -140,7 +136,7 @@ public class AccountrServiceBeanTest {
         Account account = EntityFactory.newAccount();
         accountrServiceBean.insert(account);
 
-        Optional<Account> accountOptional = accountrServiceBean.selectAccount(account.getId());
+        Optional<Account> accountOptional = accountrServiceBean.select(account.getId());
 
         assertTrue("No account found", accountOptional.isPresent());
         assertEquals("Accounts are not equal", accountOptional.get(), account);
@@ -157,7 +153,7 @@ public class AccountrServiceBeanTest {
 
     @Test
     public void thatAccountCanBeUpdated() throws Exception {
-        List<Account> accountList = accountrServiceBean.selectAccount();
+        List<Account> accountList = accountrServiceBean.select();
         Account account = accountList.get(0);
         String oldName = account.getName();
         String oldDescription = account.getDescription();
@@ -165,7 +161,7 @@ public class AccountrServiceBeanTest {
         account.setName("Updated Name");
         account.setDescription("Updated Description");
         accountrServiceBean.update(account);
-        Optional<Account> accountOptional = accountrServiceBean.selectAccount(account.getId());
+        Optional<Account> accountOptional = accountrServiceBean.select(account.getId());
 
         assertTrue("No account found", accountOptional.isPresent());
         assertEquals("Accounts are not equal", accountOptional.get(), account);
@@ -175,24 +171,24 @@ public class AccountrServiceBeanTest {
 
     @Test
     public void thatAccountCanBeDeleted() throws Exception {
-        List<Account> accountList = accountrServiceBean.selectAccount();
+        List<Account> accountList = accountrServiceBean.select();
         Account account = accountList.get(0);
 
         accountrServiceBean.delete(account);
-        Optional<Account> accountOptional = accountrServiceBean.selectAccount(account.getId());
+        Optional<Account> accountOptional = accountrServiceBean.select(account.getId());
 
         assertFalse("Account not deleted", accountOptional.isPresent());
     }
 
     @Test
     public void thatTransactionCanBeAdded() throws Exception {
-        List<Account> accountList = accountrServiceBean.selectAccount();
+        List<Account> accountList = accountrServiceBean.select();
         Account account = accountList.get(0);
         Transaction transaction = EntityFactory.newTransaction();
 
         account.addTransaction(transaction);
         accountrServiceBean.update(account);
-        Optional<Account> accountOptional = accountrServiceBean.selectAccount(account.getId());
+        Optional<Account> accountOptional = accountrServiceBean.select(account.getId());
 
         assertTrue("No account found", accountOptional.isPresent());
         assertTrue("Transaction not inserted", accountOptional.get().getTransactions().contains(transaction));
@@ -200,13 +196,13 @@ public class AccountrServiceBeanTest {
 
     @Test
     public void thatTransactionCanBeRemoved() throws Exception {
-        List<Account> accountList = accountrServiceBean.selectAccount();
+        List<Account> accountList = accountrServiceBean.select();
         Account account = accountList.get(0);
         Transaction transaction = account.getTransactions().get(0);
 
         account.removeTransaction(transaction);
         accountrServiceBean.update(account);
-        Optional<Account> accountOptional = accountrServiceBean.selectAccount(account.getId());
+        Optional<Account> accountOptional = accountrServiceBean.select(account.getId());
 
         assertTrue("No account found", accountOptional.isPresent());
         assertFalse("Transaction not deleted", accountOptional.get().getTransactions().contains(transaction));
@@ -214,7 +210,7 @@ public class AccountrServiceBeanTest {
 
     @Test
     public void thatTransactionCanBeEdited() throws Exception {
-        List<Account> accountList = accountrServiceBean.selectAccount();
+        List<Account> accountList = accountrServiceBean.select();
         Account account = accountList.get(0);
         Transaction transaction = account.getTransactions().get(0);
         long id = transaction.getId();
@@ -226,7 +222,7 @@ public class AccountrServiceBeanTest {
         transaction.setDate(Date.from(Instant.now()));
         transaction.setDescription("Edited description");
         accountrServiceBean.update(account);
-        Optional<Account> accountOptional = accountrServiceBean.selectAccount(account.getId());
+        Optional<Account> accountOptional = accountrServiceBean.select(account.getId());
 
         assertTrue("No account found", accountOptional.isPresent());
         Optional<Transaction> transactionOptional = accountOptional.get().getTransaction(id);

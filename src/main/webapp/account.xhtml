@@ -58,7 +58,9 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msg['domain.transaction.receipt.label']}"/>
                             </f:facet>
-                            <h:link outcome="#">
+                            #{transaction.receiptFileName}
+                            <h:graphicImage rendered="#{transaction.hasReceipt}" value="#{transaction.receiptFileName}"/>
+                            <h:link hreflang="#{transaction.receiptFileName}" rendered="#{transaction.hasReceipt}">
                                 <i class="glyphicon glyphicon-list-alt"/>
                             </h:link>
                         </h:column>

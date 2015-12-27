@@ -10,8 +10,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityExistsException;
-import javax.validation.constraints.Past;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -71,7 +69,7 @@ public class AccountBean implements Serializable {
 
     @PostConstruct
     public void initialize() {
-        Optional<Account> optionalAccount = accountrServiceBean.selectAccount(accountId);
+        Optional<Account> optionalAccount = accountrServiceBean.select(accountId);
         setAccount(optionalAccount.orElse(new Account()));
         isNewAccount = !optionalAccount.isPresent();
 
@@ -83,7 +81,7 @@ public class AccountBean implements Serializable {
     }
 
     public void initializeList() {
-        accountList = accountrServiceBean.selectAccount();
+        accountList = getSearch().isEmpty() ? accountrServiceBean.select() : accountrServiceBean.select(getSearch());
     }
 
     public String doSearch() {

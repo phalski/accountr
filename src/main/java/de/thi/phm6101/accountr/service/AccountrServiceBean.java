@@ -25,15 +25,15 @@ public class AccountrServiceBean {
     @Inject
     private DataAccessBean dab;
 
-    public Optional<Account> selectAccount(long id) {
+    public Optional<Account> select(long id) {
         return Optional.ofNullable(dab.get(Account.class, id));
     }
 
-    public List<Account> selectAccount() {
+    public List<Account> select() {
         return dab.getAll(Account.class);
     }
 
-    public List<Account> selectAccount(String name) {
+    public List<Account> select(String name) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
         return dab.namedQuery(Account.class,"findByName", parameters);
@@ -67,11 +67,6 @@ public class AccountrServiceBean {
     public boolean exists(Account account) {
         return dab.exists(account);
     }
-
-
-
-
-
 
     public Optional<Transaction> selectTransaction(long id) {
         return Optional.ofNullable(dab.get(Transaction.class, id));

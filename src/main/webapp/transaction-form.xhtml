@@ -27,7 +27,7 @@
             </b:row>
             <b:row>
                 <b:column>
-                    <h:form>
+                    <h:form enctype="multipart/form-data">
                     <b:panelGrid colSpans="2,10">
                         <h:outputLabel value="#{msg['domain.transaction.description.label']}" />
                         <h:inputText value="#{transactionBean.transaction.description}"/>
@@ -35,6 +35,7 @@
                         <b:datepicker value="#{transactionBean.transaction.date}"/>
                         <h:outputLabel value="#{msg['domain.transaction.amount.label']}" />
                         <h:inputText value="#{transactionBean.transaction.amount}"/>
+                        <h:inputFile id="receiptImage" value="#{transactionBean.receiptImage}"/>
                         <h:messages/>
                         <p class="pull-right">
                         <b:commandButton value="#{msg['action.cancel']}" action="#{transactionBean.doCancel}"/>
@@ -45,12 +46,6 @@
                 </b:column>
             </b:row>
         </b:container>
-
-        <h:form id="form" enctype="multipart/form-data">
-            <h:inputFile id="file" value="#{bean.file}"/>
-            <h:commandButton value="Upload"
-                             action="#{bean.upload}"/>
-        </h:form>
     </ui:define>
 
 </ui:composition>

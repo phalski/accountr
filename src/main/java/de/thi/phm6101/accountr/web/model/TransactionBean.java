@@ -3,17 +3,21 @@ package de.thi.phm6101.accountr.web.model;
 import de.thi.phm6101.accountr.domain.Account;
 import de.thi.phm6101.accountr.domain.Transaction;
 import de.thi.phm6101.accountr.service.AccountrServiceBean;
-import net.bootsfaces.render.A;
+import de.thi.phm6101.accountr.service.FileServiceBean;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Part;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Optional;
+import java.util.Scanner;
 
 /**
  * Created by philipp on 22/12/15.
@@ -27,9 +31,12 @@ public class TransactionBean implements Serializable {
     @Inject
     private AccountrServiceBean accountrServiceBean;
 
+    @Inject
+    private FileServiceBean fileServiceBean;
+
     @PostConstruct
     public void initialize() {
-        Optional<Account> accountOptional = accountrServiceBean.selectAccount(accountId);
+        Optional<Account> accountOptional = accountrServiceBean.select(accountId);
         if (accountOptional.isPresent()) {
             account = accountOptional.get();
             Optional<Transaction> transactionOptional = accountrServiceBean.selectTransaction(transactionId);
@@ -56,6 +63,8 @@ public class TransactionBean implements Serializable {
     private long transactionId;
 
     private Transaction transaction;
+
+    private Part receiptImage;
 
     /// GET/SET
 
@@ -100,9 +109,23 @@ public class TransactionBean implements Serializable {
         this.transaction = transaction;
     }
 
+    public Part getReceiptImage() {
+        return receiptImage;
+    }
+
+    public void setReceiptImage(Part receiptImage) {
+        this.receiptImage = receiptImage;
+    }
+
     /// ACTION METHODS
 
     public String doSave() {
+        try {
+            uploadReceipt();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         if (isNewTransaction) {
             account.addTransaction(transaction);
             accountrServiceBean.update(account);
@@ -120,17 +143,21 @@ public class TransactionBean implements Serializable {
     public String doDelete(Transaction transaction) {
         LOGGER.info(String.format("Deleting transaction %d", transaction.getId()));
 
-        if (accountrServiceBean.existsTransaction(transaction)) {
-            accountrServiceBean.deleteTransaction(transaction);
-        }
-//        if (accountrServiceBean.exists(transaction.getAccount())) {
-//            Account account = transaction.getAccount();
-//            account.removeTransaction(transaction);
-//            this.account = accountrServiceBean.update(account);
-//        } else {
-//            LOGGER.warn("doDelete: Transaction has no account");
-//        }
+        Account account = transaction.getAccount();
+        account.removeTransaction(transaction);
+        accountrServiceBean.update(account);
+
         return String.format("account.xhtml?faces-redirect=true&accountId=%d", transaction.getAccount().getId());
     }
+
+    public void uploadReceipt() throws IOException {
+        if (receiptImage != null && transaction != null) {
+            String fileName = fileServiceBean.buildFileName(receiptImage);
+            fileServiceBean.uploadFile(receiptImage, fileName);
+            transaction.setReceiptFileName(fileName);
+        }
+
+    }
+
 
 }
