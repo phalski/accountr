@@ -186,8 +186,7 @@ public class AccountrServiceBeanTest {
         Account account = accountList.get(0);
         Transaction transaction = EntityFactory.newTransaction();
 
-        account.addTransaction(transaction);
-        accountrServiceBean.update(account);
+        accountrServiceBean.insertTransaction(account, transaction);
         Optional<Account> accountOptional = accountrServiceBean.select(account.getId());
 
         assertTrue("No account found", accountOptional.isPresent());

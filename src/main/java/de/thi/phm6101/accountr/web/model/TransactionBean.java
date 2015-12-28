@@ -3,21 +3,24 @@ package de.thi.phm6101.accountr.web.model;
 import de.thi.phm6101.accountr.domain.Account;
 import de.thi.phm6101.accountr.domain.Transaction;
 import de.thi.phm6101.accountr.service.AccountrServiceBean;
-import de.thi.phm6101.accountr.service.FileServiceBean;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseId;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
-import java.io.FileOutputStream;
+import java.awt.*;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Optional;
-import java.util.Scanner;
 
 /**
  * Created by philipp on 22/12/15.
@@ -31,43 +34,40 @@ public class TransactionBean implements Serializable {
     @Inject
     private AccountrServiceBean accountrServiceBean;
 
-    @Inject
-    private FileServiceBean fileServiceBean;
-
     @PostConstruct
     public void initialize() {
+        LOGGER.info(String.format("initialize: Account-ID: %d, Transaction-ID: %d", accountId, transactionId));
+
         Optional<Account> accountOptional = accountrServiceBean.select(accountId);
         if (accountOptional.isPresent()) {
             account = accountOptional.get();
+            transaction = new Transaction();
+        } else {
+            // update transaction
             Optional<Transaction> transactionOptional = accountrServiceBean.selectTransaction(transactionId);
-            isNewTransaction = !transactionOptional.isPresent();
-            setTransaction(transactionOptional.orElse(new Transaction()));
-            if (transactionOptional.isPresent()) {
-                LOGGER.info(String.format("initialize: Account-ID: %d, Transaction-ID: %d", accountId, transactionId));
-            } else {
-                LOGGER.info(String.format("initialize: Account-ID: %d, Transaction-ID: -", accountId));
-            }
+            transaction = transactionOptional.orElse(null);
         }
 
+        if (transaction == null) {
+            LOGGER.error("No transaction created");
+        };
     }
 
+    // view params
 
     private long accountId;
 
-    private Account account;
-
-    private boolean isInitialized = false;
-
-    private boolean isNewTransaction;
-
     private long transactionId;
+
+    // properties
+
+    private Account account;
 
     private Transaction transaction;
 
-    private Part receiptImage;
+    private Part part;
 
     /// GET/SET
-
 
     public long getAccountId() {
         return accountId;
@@ -75,22 +75,6 @@ public class TransactionBean implements Serializable {
 
     public void setAccountId(long accountId) {
         this.accountId = accountId;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public boolean getIsInitialized() {
-        return isInitialized;
-    }
-
-    public boolean getIsNewTransaction() {
-        return isNewTransaction;
     }
 
     public long getTransactionId() {
@@ -101,6 +85,14 @@ public class TransactionBean implements Serializable {
         this.transactionId = transactionId;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     public Transaction getTransaction() {
         return transaction;
     }
@@ -109,29 +101,20 @@ public class TransactionBean implements Serializable {
         this.transaction = transaction;
     }
 
-    public Part getReceiptImage() {
-        return receiptImage;
+    public Part getPart() {
+        return part;
     }
 
-    public void setReceiptImage(Part receiptImage) {
-        this.receiptImage = receiptImage;
+    public void setPart(Part part) {
+        this.part = part;
     }
+
 
     /// ACTION METHODS
 
     public String doSave() {
-        try {
-            uploadReceipt();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (isNewTransaction) {
-            account.addTransaction(transaction);
-            accountrServiceBean.update(account);
-        } else {
-            accountrServiceBean.updateTransaction(transaction);
-        }
+        upload();
+        insertOrUpdate();
 
         return String.format("account.xhtml?faces-redirect=true&accountId=%d", account.getId());
     }
@@ -143,21 +126,32 @@ public class TransactionBean implements Serializable {
     public String doDelete(Transaction transaction) {
         LOGGER.info(String.format("Deleting transaction %d", transaction.getId()));
 
-        Account account = transaction.getAccount();
-        account.removeTransaction(transaction);
-        accountrServiceBean.update(account);
+        accountrServiceBean.deleteTransaction(transaction);
 
         return String.format("account.xhtml?faces-redirect=true&accountId=%d", transaction.getAccount().getId());
     }
 
-    public void uploadReceipt() throws IOException {
-        if (receiptImage != null && transaction != null) {
-            String fileName = fileServiceBean.buildFileName(receiptImage);
-            fileServiceBean.uploadFile(receiptImage, fileName);
-            transaction.setReceiptFileName(fileName);
-        }
+    // UTIL
 
+    private void insertOrUpdate() {
+        if (account != null) {
+            accountrServiceBean.insertTransaction(account, transaction);
+        } else if (transaction.getAccount() != null) {
+            accountrServiceBean.updateTransaction(transaction);
+        }
     }
+
+    private void upload() {
+        if (part != null) {
+            try {
+                transaction.setReceiptImage(IOUtils.toByteArray(part.getInputStream()));
+            } catch (IOException e) {
+                LOGGER.error("Upload failed:" + e.toString());
+            }
+        }
+    }
+
+
 
 
 }

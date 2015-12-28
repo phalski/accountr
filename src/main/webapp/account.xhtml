@@ -3,7 +3,8 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui">
+                xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:param name="title" value="#{accountBean.account.name}"/>
 
@@ -58,6 +59,9 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msg['domain.transaction.receipt.label']}"/>
                             </f:facet>
+                            <p:graphicImage value="#{receiptImageBean.image}">
+                                <f:param name="transactionID" value="#{transaction.id}" />
+                            </p:graphicImage>
                             #{transaction.receiptFileName}
                             <h:graphicImage rendered="#{transaction.hasReceipt}" value="#{transaction.receiptFileName}"/>
                             <h:link hreflang="#{transaction.receiptFileName}" rendered="#{transaction.hasReceipt}">
@@ -75,7 +79,6 @@
                             </f:facet>
                             <h:form class="pull-right">
                             <h:link outcome="transaction-form">
-                                <f:param name="accountId" value="#{accountBean.account.id}"/>
                                 <f:param name="transactionId" value="#{transaction.id}"/>
                                 <i class="glyphicon glyphicon-edit"/>
                             </h:link>

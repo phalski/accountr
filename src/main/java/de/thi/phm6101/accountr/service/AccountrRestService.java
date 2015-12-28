@@ -30,4 +30,5 @@ public class AccountrRestService {
     public Account findById(@PathParam("accountId") Long id) {
         return accountrServiceBean.select(id).get();
     }
+
 }

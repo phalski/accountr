@@ -25,6 +25,8 @@ public class AccountrServiceBean {
     @Inject
     private DataAccessBean dab;
 
+    /// ACCOUNT CRUD
+
     public Optional<Account> select(long id) {
         return Optional.ofNullable(dab.get(Account.class, id));
     }
@@ -68,6 +70,9 @@ public class AccountrServiceBean {
         return dab.exists(account);
     }
 
+
+    /// TRANSACTION CRUD
+
     public Optional<Transaction> selectTransaction(long id) {
         return Optional.ofNullable(dab.get(Transaction.class, id));
     }
@@ -76,10 +81,9 @@ public class AccountrServiceBean {
         return dab.getAll(Transaction.class);
     }
 
-    public List<Transaction> selectTransaction(String name) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("name", name);
-        return dab.namedQuery(Transaction.class,"findByName", parameters);
+    public void insertTransaction(Account account, Transaction transaction) {
+        account.addTransaction(transaction);
+        this.update(account);
     }
 
     public Transaction updateTransaction(Transaction transaction) throws EntityNotFoundException {
@@ -92,15 +96,9 @@ public class AccountrServiceBean {
     }
 
     public void deleteTransaction(Transaction transaction) throws EntityNotFoundException {
-        if (!dab.exists(transaction)) {
-            throw new EntityNotFoundException(String.format("Account '%s' does not exist.", transaction.getDescription()));
-        }
-        dab.delete(transaction);
+        Account account = transaction.getAccount();
+        account.removeTransaction(transaction);
+        this.update(account);
     }
-
-    public boolean existsTransaction(Transaction transaction) {
-        return dab.exists(transaction);
-    }
-
 
 }

@@ -29,6 +29,8 @@ public class Transaction extends AbstractEntity {
 
     private String receiptFileName;
 
+    @Column(length = 100000) // forec blob
+    @Lob
     private byte[] receiptImage;
 
 

@@ -19,10 +19,6 @@
         <b:container>
             <b:row>
                 <b:column>
-                    <h1>
-                        <h:outputText rendered="#{transactionBean.isNewTransaction}" value="#{msg['action.add']} #{msg['domain.transaction']}"/>
-                        <h:outputText rendered="#{!transactionBean.isNewTransaction}" value="#{msg['action.edit']} #{msg['domain.transaction']}"/>
-                    </h1>
                 </b:column>
             </b:row>
             <b:row>
@@ -35,7 +31,7 @@
                         <b:datepicker value="#{transactionBean.transaction.date}"/>
                         <h:outputLabel value="#{msg['domain.transaction.amount.label']}" />
                         <h:inputText value="#{transactionBean.transaction.amount}"/>
-                        <h:inputFile id="receiptImage" value="#{transactionBean.receiptImage}"/>
+                        <h:inputFile id="part" value="#{transactionBean.part}"/>
                         <h:messages/>
                         <p class="pull-right">
                         <b:commandButton value="#{msg['action.cancel']}" action="#{transactionBean.doCancel}"/>
