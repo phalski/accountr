@@ -29,6 +29,8 @@ public class Transaction extends AbstractEntity {
 
     private String receiptFileName;
 
+    private byte[] receiptImage;
+
 
     public Account getAccount() {
         return account;
@@ -75,6 +77,14 @@ public class Transaction extends AbstractEntity {
 
     public void setReceiptFileName(String receiptFileName) {
         this.receiptFileName = receiptFileName;
+    }
+
+    public byte[] getReceiptImage() {
+        return receiptImage;
+    }
+
+    public void setReceiptImage(byte[] receiptImage) {
+        this.receiptImage = receiptImage;
     }
 
     @Override
