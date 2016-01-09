@@ -3,7 +3,7 @@
          version="3.0">
 
     <welcome-file-list>
-        <welcome-file>/search.xhtml</welcome-file>
+        <welcome-file>/accounts.xhtml</welcome-file>
     </welcome-file-list>
 
     <login-config>
@@ -18,7 +18,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Authorized Users</web-resource-name>
-            <url-pattern>/add.xhtml</url-pattern>
+            <url-pattern>/account-form.xhtml</url-pattern>
             <url-pattern>/api/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>

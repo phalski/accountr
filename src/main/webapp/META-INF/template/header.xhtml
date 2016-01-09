@@ -11,20 +11,22 @@
             <b:navLink value="Link" href="#"></b:navLink>
         </b:navbarLinks>
 
-        <h:form class="navbar-form pull-right">
+        <h:form class="navbar-form pull-right" id="loginForm" action="j_security_check" >
             <div class="form-group">
-                <label class="sr-only" for="exampleInputEmail3">Username</label>
-                <input type="text" class="form-control" id="exampleInputEmail3" placeholder="Username"/>
+                <label class="sr-only" for="j_username">Username</label>
+                <input type="text" class="form-control"  id="j_username" required="required" name="j_username" placeholder="Username" value="#{userSessionBean.login}"/>
             </div>
             <div class="form-group">
-                <label class="sr-only" for="exampleInputPassword3">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password"/>
+                <label class="sr-only" for="j_password">Password</label>
+                <input type="password" class="form-control" id="j_password" required="required" name="j_password"  placeholder="Password" value="#{userSessionBean.password}"/>
             </div>
-            <button type="submit" class="btn btn-default">Sign in</button>
+            <h:commandButton type="submit" class="btn btn-default" action="#{userSessionBean.doSignIn}" value="Sign in"/>
         </h:form>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="user-form.xhtml">Register</a></li>
+            <li><a href="user-form.xhtml">Sign up</a></li>
         </ul>
 
     </b:navBar>
+    <h:outputText rendered="#{userSessionBean.isSignedIn}" value="signed in"/>
+    <h:outputText rendered="#{!userSessionBean.isSignedIn}" value="signed out"/>
 </ui:composition>
