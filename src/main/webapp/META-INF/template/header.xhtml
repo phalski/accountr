@@ -14,11 +14,11 @@
         <h:form class="navbar-form pull-right" id="loginForm" action="j_security_check" >
             <div class="form-group">
                 <label class="sr-only" for="j_username">Username</label>
-                <input type="text" class="form-control"  id="j_username" required="required" name="j_username" placeholder="Username" value="#{userSessionBean.login}"/>
+                <h:inputText type="text" class="form-control"  id="j_username" required="true" name="j_username" placeholder="Username" value="#{userSessionBean.login}"/>
             </div>
             <div class="form-group">
                 <label class="sr-only" for="j_password">Password</label>
-                <input type="password" class="form-control" id="j_password" required="required" name="j_password"  placeholder="Password" value="#{userSessionBean.password}"/>
+                <h:inputSecret type="password" class="form-control" id="j_password" required="true" name="j_password"  placeholder="Password" value="#{userSessionBean.password}"/>
             </div>
             <h:commandButton type="submit" class="btn btn-default" action="#{userSessionBean.doSignIn}" value="Sign in"/>
         </h:form>

@@ -43,22 +43,15 @@ public class UserSessionBean implements Serializable {
         this.password = password;
     }
 
-    @PostConstruct
-    public void initialize() {
-        this.login= "test";
-        this.password = "test";
-    }
-
     public String doSignIn() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest)
                 context.getExternalContext().getRequest();
-        LOGGER.info("Login" + this.login);
-        LOGGER.info("Password" + this.password);
+
         try {
             request.login(this.login, this.password);
         } catch (ServletException e) {
-            LOGGER.error(String.format("Login error. %s", e.toString()));
+            e.printStackTrace();
             return "/loginerror.xhtml";
         }
         return null;
@@ -71,7 +64,7 @@ public class UserSessionBean implements Serializable {
         externalContext.setResponseStatus(401);
 
         try {
-            externalContext.getResponseOutputWriter().write("<html><head><meta http-equiv='refresh' content='0;search.xhtml'></head></html>");
+            externalContext.getResponseOutputWriter().write("<html><head><meta http-equiv='refresh' content='0;accounts.xhtml'></head></html>");
         } catch (IOException e) {
             LOGGER.error("Logout error");
         } finally {

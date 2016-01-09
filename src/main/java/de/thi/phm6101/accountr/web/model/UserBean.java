@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Named
 @ViewScoped
-public class UserBean implements Serializable{
+public class UserBean implements Serializable {
 
     private static final Logger LOGGER = LogManager.getLogger(UserBean.class);
 
