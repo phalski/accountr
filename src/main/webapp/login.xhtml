@@ -6,40 +6,59 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui"
                 xmlns:p="http://primefaces.org/ui">
 
-    <ui:param name="title" value="#{accountBean.account.name}"/>
+    <ui:param name="title" value="#{msg['page.login.title']}"/>
 
     <ui:define name="head">
-        <f:metadata>
-            <f:viewParam name="accountId" value="#{accountBean.accountId}" />
-            <f:viewAction action="#{accountBean.initialize}" />
-            <f:viewAction action="#{transactionBean.initialize}" />
-        </f:metadata>
+
     </ui:define>
-<ui:define name="content">
+    <ui:define name="content">
 
-    <div class="content">
+        <div class="content">
+            <b:container>
+                <b:row>
+                    <b:column>
+                        <h1>#{msg['page.login.title']}</h1>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <b:column>
+                        <form method="post" action="j_security_check" class="form-horizontal">
+                            <div class="form-group">
+                                <label for="j_username" class="col-sm-1 control-label" >#{msg['domain.user.name.label']}</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="j_username" id="j_username"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="j_password" class="col-sm-1 control-label">#{msg['domain.user.password.label']}</label>
+                                <div class="col-sm-4">
+                                    <input type="password" class="form-control" name="j_password" id="j_password"/>
+                                </div>
+                            </div>
 
-        <form method="post" action="j_security_check" class="pure-form pure-form-aligned">
-            <fieldset>
 
-                <div class="pure-control-group">
-                    <label for="j_username">Username</label>
-                    <input type="text" name="j_username" id="j_username"/>
-                </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-1 col-sm-4">
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <div class="col-sm-4">
+                                                <input type="submit" class="btn btn-primary" value="#{msg['action.signIn']}"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-sm-4">
+                                                <a class="btn btn-default" href="/accounts.xhtml?faces-redirect=true" role="button">#{msg['action.cancel']}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </b:column>
+                </b:row>
+            </b:container>
 
-                <div class="pure-control-group">
-                    <label for="j_password">Password</label>
-                    <input type="password" name="j_password" id="j_password"/>
-                </div>
-
-                <div class="pure-controls">
-                    <input type="submit" class="pure-button" value="Login"/>
-                </div>
-
-            </fieldset>
-        </form>
-
-    </div>
-</ui:define>
+        </div>
+    </ui:define>
 
 </ui:composition>

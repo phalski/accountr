@@ -47,7 +47,7 @@
             <ui:repeat value="#{accountBean.accountList}" var="account">
                 <b:column span="4">
                     <b:panel collapsible="false">
-                            <h:form styleClass="pull-right">
+                            <h:form rendered="#{userSessionBean.isSignedIn}" styleClass="pull-right">
                                 <h:link outcome="account-form">
                                 <f:param name="accountId" value="#{account.id}"/>
                                 <i class="glyphicon glyphicon-edit"/>
@@ -65,6 +65,15 @@
 
                         <p>
                             <h:outputText value="#{account.description}"/>
+                        </p>
+                        <p>
+                            <h:outputText value="#{account.balance}">
+                                <f:attribute name="currencySymbol" value="#{account.currency.symbol}" />
+                                <f:convertNumber type="currency" groupingUsed="true" maxFractionDigits="2" currencySymbol="#{currencySymbol}"/>
+                            </h:outputText>
+                        </p>
+                        <p>
+                            <h:outputText value="#{account.currency.symbol}"/>
                         </p>
 
                     </b:panel>

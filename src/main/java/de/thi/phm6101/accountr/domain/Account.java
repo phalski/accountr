@@ -3,10 +3,7 @@ package de.thi.phm6101.accountr.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -31,12 +28,15 @@ public class Account extends AbstractEntity{
 
     private String description;
 
+    private Currency currency;
+
     //
     // CONSTRUCTION
     //
 
     public Account() {
         transactions = new ArrayList<>();
+        currency = Currency.getInstance(Locale.getDefault());
     }
 
     //
@@ -82,6 +82,17 @@ public class Account extends AbstractEntity{
         this.description = description;
     }
 
+    public double getBalance() {
+        return transactions.stream().mapToDouble(Transaction::getAmount).summaryStatistics().getSum();
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
 
     //
     // IDENTITY
