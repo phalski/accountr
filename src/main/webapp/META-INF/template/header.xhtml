@@ -11,7 +11,7 @@
             <b:navLink value="Link" href="#"></b:navLink>
         </b:navbarLinks>
 
-        <h:form class="navbar-form pull-right" id="loginForm" action="j_security_check" >
+        <h:form class="navbar-form pull-right" id="loginForm" action="j_security_check" rendered="#{!userSessionBean.isSignedIn}" >
             <div class="form-group">
                 <label class="sr-only" for="j_username">Username</label>
                 <h:inputText type="text" class="form-control"  id="j_username" required="true" name="j_username" placeholder="Username" value="#{userSessionBean.login}"/>
@@ -22,11 +22,19 @@
             </div>
             <h:commandButton type="submit" class="btn btn-default" action="#{userSessionBean.doSignIn}" value="Sign in"/>
         </h:form>
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="user-form.xhtml">Sign up</a></li>
-        </ul>
 
+        <h:form class="navbar-form pull-right" id="logoutForm" rendered="#{userSessionBean.isSignedIn}" >
+            <h:commandButton type="submit" class="btn btn-default" action="#{userSessionBean.doSignOut}" value="Sign out"/>
+        </h:form>
+
+        <ul class="nav navbar-nav navbar-right">
+            <h:panelGroup rendered="#{!userSessionBean.isSignedIn}">
+            <li><a href="user-form.xhtml">Sign up</a></li>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{userSessionBean.isSignedIn}">
+                <li><p class="navbar-text">#{msg['header.signedInText']} #{request.remoteUser}</p></li>
+            </h:panelGroup>
+
+        </ul>
     </b:navBar>
-    <h:outputText rendered="#{userSessionBean.isSignedIn}" value="signed in"/>
-    <h:outputText rendered="#{!userSessionBean.isSignedIn}" value="signed out"/>
 </ui:composition>

@@ -11,6 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.Lob;
+import javax.resource.spi.work.SecurityContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -54,6 +55,9 @@ public class UserSessionBean implements Serializable {
             e.printStackTrace();
             LOGGER.error(e);
             return "/login-error.xhtml";
+        }
+        if("/login.xhtml".equals(context.getViewRoot().getViewId()) || "/login-error.xhtml".equals(context.getViewRoot().getViewId())) {
+            return "/accounts.xhtml";
         }
         return null;
     }

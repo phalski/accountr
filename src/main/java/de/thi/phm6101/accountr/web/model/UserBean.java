@@ -52,6 +52,6 @@ public class UserBean implements Serializable {
         } catch (NoSuchAlgorithmException e) {
             LOGGER.error(String.format("Failed to create user %s", user.getName()));
         }
-        return null;
+        return "/accounts.xhtml?faces-redirect=true";
     }
 }
