@@ -52,7 +52,8 @@ public class UserSessionBean implements Serializable {
             request.login(this.login, this.password);
         } catch (ServletException e) {
             e.printStackTrace();
-            return "/loginerror.xhtml";
+            LOGGER.error(e);
+            return "/login-error.xhtml";
         }
         return null;
     }

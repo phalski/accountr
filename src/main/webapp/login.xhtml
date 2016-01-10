@@ -1,21 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html" xml:lang="en" lang="en">
-<head>
-    <title>Title</title>
-</head>
-<body>
-<form name="loginForm" method="POST" action="j_security_check">
-    <p><strong>Please type your user name: </strong>
-        <input type="text" name="j_username" size="25"/></p>
-    <p><strong>Please type your password: </strong>
-        <input type="password" size="15" name="j_password"/></p>
-    <p>
-        <input type="submit" value="Submit"/>
-        <input type="reset" value="Reset"/></p>
-    <h:messages/>
-</form>
-</body>
-</html>
+<ui:composition template="/META-INF/template/page.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:param name="title" value="#{accountBean.account.name}"/>
+
+    <ui:define name="head">
+        <f:metadata>
+            <f:viewParam name="accountId" value="#{accountBean.accountId}" />
+            <f:viewAction action="#{accountBean.initialize}" />
+            <f:viewAction action="#{transactionBean.initialize}" />
+        </f:metadata>
+    </ui:define>
+<ui:define name="content">
+
+    <div class="content">
+
+        <form method="post" action="j_security_check" class="pure-form pure-form-aligned">
+            <fieldset>
+
+                <div class="pure-control-group">
+                    <label for="j_username">Username</label>
+                    <input type="text" name="j_username" id="j_username"/>
+                </div>
+
+                <div class="pure-control-group">
+                    <label for="j_password">Password</label>
+                    <input type="password" name="j_password" id="j_password"/>
+                </div>
+
+                <div class="pure-controls">
+                    <input type="submit" class="pure-button" value="Login"/>
+                </div>
+
+            </fieldset>
+        </form>
+
+    </div>
+</ui:define>
+
+</ui:composition>
