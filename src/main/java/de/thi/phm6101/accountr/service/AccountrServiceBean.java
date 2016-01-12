@@ -42,7 +42,7 @@ public class AccountrServiceBean {
     }
 
     public Account insert(Account account) throws EntityExistsException {
-        if (dab.exists(account)) {
+        if (equalExists(account)) {
             throw new EntityExistsException(String.format("Account '%s' already exists.", account.getName()));
         }
         dab.insert(account);
@@ -68,6 +68,10 @@ public class AccountrServiceBean {
 
     public boolean exists(Account account) {
         return dab.exists(account);
+    }
+
+    public boolean equalExists(Account account) {
+        return select(account.getName()).size() != 0;
     }
 
 

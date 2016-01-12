@@ -64,9 +64,19 @@
                             </p:graphicImage>
                             #{transaction.receiptFileName}
                             <h:graphicImage rendered="#{transaction.hasReceipt}" value="#{transaction.receiptFileName}"/>
-                            <h:link hreflang="#{transaction.receiptFileName}" rendered="#{transaction.hasReceipt}">
+                            <h:link href="#receipt-modal-#{transaction.id}" rendered="#{transaction.receiptImage != null}">
                                 <i class="glyphicon glyphicon-list-alt"/>
                             </h:link>
+                            <b:modal id="receipt-modal-#{transaction.id}" title="#{msg['page.account.receiptModal.title']}" styleClass="modalPseudoClass">
+                                <p:graphicImage value="#{receiptImageBean.image}">
+                                    <f:param name="transactionID" value="#{transaction.id}" />
+                                </p:graphicImage>
+                            </b:modal>
+                            <b:row>
+                                <b:column span="3">
+                                    <a id="atrigger" class="btn btn-primary btn-lg" href="#amodal" data-toggle="modal">Trigger (HTML A tag)</a>
+                                </b:column>
+                            </b:row>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
