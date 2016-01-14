@@ -40,9 +40,7 @@
                         </b:button>
                     </p>
                     <h:dataTable value="#{accountBean.account.transactions}" var="transaction"
-                                 styleClass="table"
-                                 headerClass="employeeTableHeader"
-                                 rowClasses="employeeTableOddRow,employeeTableEvenRow">
+                                 styleClass="table">
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="#{msg['domain.transaction.description.label']}"/>
@@ -59,24 +57,50 @@
                             <f:facet name="header">
                                 <h:outputText value="#{msg['domain.transaction.receipt.label']}"/>
                             </f:facet>
-                            <p:graphicImage value="#{receiptImageBean.image}">
-                                <f:param name="transactionID" value="#{transaction.id}" />
-                            </p:graphicImage>
-                            #{transaction.receiptFileName}
-                            <h:graphicImage rendered="#{transaction.hasReceipt}" value="#{transaction.receiptFileName}"/>
-                            <h:link href="#receipt-modal-#{transaction.id}" rendered="#{transaction.receiptImage != null}">
-                                <i class="glyphicon glyphicon-list-alt"/>
-                            </h:link>
-                            <b:modal id="receipt-modal-#{transaction.id}" title="#{msg['page.account.receiptModal.title']}" styleClass="modalPseudoClass">
-                                <p:graphicImage value="#{receiptImageBean.image}">
-                                    <f:param name="transactionID" value="#{transaction.id}" />
-                                </p:graphicImage>
-                            </b:modal>
-                            <b:row>
-                                <b:column span="3">
-                                    <a id="atrigger" class="btn btn-primary btn-lg" href="#amodal" data-toggle="modal">Trigger (HTML A tag)</a>
-                                </b:column>
-                            </b:row>
+                            <h:panelGroup href="#receipt-modal-#{transaction.id}" rendered="#{transaction.receiptImage != null}">
+                                <a class="glyphicon glyphicon-list-alt" href="#receipt-modal-#{transaction.id}" data-toggle="modal"></a>
+                            </h:panelGroup>
+                            <!--<div id="receipt-modal-#{transaction.id}" class="modal fade" role="dialog">-->
+                                <!--<div class="modal-dialog">-->
+
+                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                    <!--<div class="modal-content">-->
+                                        <!--<div class="modal-header">-->
+                                            <!--<button type="button" class="close" data-dismiss="modal"></button>-->
+                                            <!--<h4 class="modal-title">#{msg['page.account.receiptModal.title']}</h4>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-body">-->
+                                            <!--<p:graphicImage value="#{receiptImageBean.image}">-->
+                                                <!--<f:param name="transactionID" value="#{transaction.id}" />-->
+                                            <!--</p:graphicImage>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-footer">-->
+                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div id="receipt-modal-#{transaction.id}" class="modal fade" role="dialog">-->
+                                <!--<div class="modal-dialog">-->
+
+                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                    <!--<div class="modal-content">-->
+                                        <!--<div class="modal-header">-->
+                                            <!--<button type="button" class="close" data-dismiss="modal"></button>-->
+                                            <!--<h4 class="modal-title">Modal Header</h4>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-body">-->
+                                            <!--<p>Some text in the modal.</p>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-footer">-->
+                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                <!--</div>-->
+                            <!--</div>-->
                         </h:column>
                         <h:column>
                             <f:facet name="header">
@@ -88,11 +112,6 @@
                             <f:facet name="header">
                             </f:facet>
                             <h:form class="pull-right">
-                            <h:link outcome="transaction-form">
-                                <f:param name="transactionId" value="#{transaction.id}"/>
-                                <i class="glyphicon glyphicon-edit"/>
-                            </h:link>
-                            <h:outputText value=" "/>
                             <h:commandLink action="#{transactionBean.doDelete(transaction)}">
                                 <i class="glyphicon glyphicon-remove"/>
                             </h:commandLink>

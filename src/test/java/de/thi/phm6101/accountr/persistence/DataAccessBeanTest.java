@@ -3,13 +3,10 @@ package de.thi.phm6101.accountr.persistence;
 import de.thi.phm6101.accountr.domain.AbstractEntity;
 import de.thi.phm6101.accountr.domain.Account;
 import de.thi.phm6101.accountr.domain.Transaction;
-import de.thi.phm6101.accountr.service.AccountrServiceBean;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.ClassAsset;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +15,6 @@ import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
 import javax.persistence.EntityExistsException;
-import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +42,7 @@ public class DataAccessBeanTest {
                 .addClass(AbstractEntity.class)
                 .addClass(EntityExistsException.class)
                 .addAsResource("META-INF/persistence.test.xml", "META-INF/persistence.xml")
+                .addAsWebInfResource("WEB-INF/accountr-test-ds.xml")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 

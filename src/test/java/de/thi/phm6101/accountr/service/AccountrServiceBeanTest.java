@@ -64,6 +64,7 @@ public class AccountrServiceBeanTest {
                 .addClass(AbstractEntity.class)
                 .addClass(EntityExistsException.class)
                 .addAsResource("META-INF/persistence.test.xml", "META-INF/persistence.xml")
+                .addAsWebInfResource("WEB-INF/accountr-test-ds.xml")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
