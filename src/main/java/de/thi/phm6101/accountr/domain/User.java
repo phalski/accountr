@@ -38,18 +38,18 @@ public class User extends AbstractEntity {
         return Collections.unmodifiableList(roles);
     }
 
-    public void addRole(UserRole role) {
-        this.roles.add(role);
-        if (role.getUser() != this) {
-            role.setUser(this);
-        }
-    }
-
     public User() {
         roles = new ArrayList<>();
         UserRole userRole = new UserRole();
         userRole.setRole("User");
         this.addRole(userRole);
+    }
+
+    public void addRole(UserRole role) {
+        this.roles.add(role);
+        if (role.getUser() != this) {
+            role.setUser(this);
+        }
     }
 
     @Override

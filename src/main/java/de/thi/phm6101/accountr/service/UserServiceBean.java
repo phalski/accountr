@@ -27,7 +27,7 @@ public class UserServiceBean {
         return Optional.ofNullable(dab.get(User.class, id));
     }
 
-    public User insert(User user) throws EntityExistsException, NoSuchAlgorithmException {
+    public User insert(User user) throws NoSuchAlgorithmException {
         if (dab.exists(user)) {
             throw new EntityExistsException(String.format("User '%s' already exists.", user.getName()));
         }

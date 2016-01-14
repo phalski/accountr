@@ -6,18 +6,15 @@ import de.thi.phm6101.accountr.service.AccountrServiceBean;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
+
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
-import javax.faces.event.PhaseId;
+
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Transient;
 import javax.servlet.http.Part;
-import java.awt.*;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Optional;
@@ -33,6 +30,21 @@ public class TransactionBean implements Serializable {
 
     @Inject
     private AccountrServiceBean accountrServiceBean;
+
+    // view params
+
+    private long accountId;
+
+    private long transactionId;
+
+    // properties
+
+    private Account account;
+
+    private Transaction transaction;
+
+    @Transient
+    private Part part;
 
     @PostConstruct
     public void initialize() {
@@ -50,22 +62,9 @@ public class TransactionBean implements Serializable {
 
         if (transaction == null) {
             LOGGER.error("No transaction created");
-        };
+        }
     }
 
-    // view params
-
-    private long accountId;
-
-    private long transactionId;
-
-    // properties
-
-    private Account account;
-
-    private Transaction transaction;
-
-    private Part part;
 
     /// GET/SET
 

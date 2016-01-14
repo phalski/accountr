@@ -12,7 +12,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.Lob;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
@@ -25,7 +24,6 @@ import java.util.Optional;
 @ApplicationScoped
 public class ReceiptImageBean implements Serializable {
 
-    private static final Logger LOGGER = LogManager.getLogger(AccountBean.class);
     @Inject
     private AccountrServiceBean accountrServiceBean;
 

@@ -2,15 +2,11 @@ package de.thi.phm6101.accountr.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.*;
-import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-/**
- * Created by philipp on 08/12/15.
- */
+
 @Entity
 @NamedQueries({
         @NamedQuery(name = "findByName",

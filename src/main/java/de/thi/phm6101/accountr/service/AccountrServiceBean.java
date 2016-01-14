@@ -14,9 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Created by philipp on 08/12/15.
- */
+
 @Stateless
 public class AccountrServiceBean {
 
@@ -41,7 +39,7 @@ public class AccountrServiceBean {
         return dab.namedQuery(Account.class,"findByName", parameters);
     }
 
-    public Account insert(Account account) throws EntityExistsException {
+    public Account insert(Account account) {
         if (equalExists(account)) {
             throw new EntityExistsException(String.format("Account '%s' already exists.", account.getName()));
         }
@@ -50,7 +48,7 @@ public class AccountrServiceBean {
         return account;
     }
 
-    public Account update(Account account) throws EntityNotFoundException {
+    public Account update(Account account) {
         if (!dab.exists(account)) {
             throw new EntityNotFoundException(String.format("Account '%s' does not exist.", account.getName()));
         }
@@ -59,7 +57,7 @@ public class AccountrServiceBean {
         return account;
     }
 
-    public void delete(Account account) throws EntityNotFoundException {
+    public void delete(Account account) {
         if (!dab.exists(account)) {
             throw new EntityNotFoundException(String.format("Account '%s' does not exist.", account.getName()));
         }
@@ -71,7 +69,7 @@ public class AccountrServiceBean {
     }
 
     public boolean equalExists(Account account) {
-        return select(account.getName()).size() != 0;
+        return !select(account.getName()).isEmpty();
     }
 
 
@@ -90,7 +88,7 @@ public class AccountrServiceBean {
         this.update(account);
     }
 
-    public Transaction updateTransaction(Transaction transaction) throws EntityNotFoundException {
+    public Transaction updateTransaction(Transaction transaction) {
         if (!dab.exists(transaction)) {
             throw new EntityNotFoundException(String.format("Transaction '%s' does not exist.", transaction.getDescription()));
         }
@@ -99,7 +97,7 @@ public class AccountrServiceBean {
         return transaction;
     }
 
-    public void deleteTransaction(Transaction transaction) throws EntityNotFoundException {
+    public void deleteTransaction(Transaction transaction) {
         Account account = transaction.getAccount();
         account.removeTransaction(transaction);
         this.update(account);

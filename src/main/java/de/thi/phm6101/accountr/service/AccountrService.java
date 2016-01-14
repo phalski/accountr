@@ -9,5 +9,5 @@ import javax.persistence.EntityExistsException;
  */
 public interface AccountrService {
 
-    public Account createAccount(Account account) throws EntityExistsException;
+    public Account createAccount(Account account);
 }
