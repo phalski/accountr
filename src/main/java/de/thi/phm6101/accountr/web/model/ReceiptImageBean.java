@@ -2,8 +2,7 @@ package de.thi.phm6101.accountr.web.model;
 
 import de.thi.phm6101.accountr.domain.Transaction;
 import de.thi.phm6101.accountr.service.AccountrServiceBean;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 

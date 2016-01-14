@@ -3,15 +3,13 @@ package de.thi.phm6101.accountr.web.model;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
+
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
+
 import javax.inject.Named;
-import javax.persistence.Lob;
-import javax.resource.spi.work.SecurityContext;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;

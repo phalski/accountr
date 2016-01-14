@@ -2,8 +2,6 @@ package de.thi.phm6101.accountr.persistence;
 
 
 import de.thi.phm6101.accountr.domain.AbstractEntity;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

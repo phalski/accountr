@@ -18,6 +18,13 @@ public class User extends AbstractEntity {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserRole> roles;
 
+    public User() {
+        roles = new ArrayList<>();
+        UserRole userRole = new UserRole();
+        userRole.setRole("User");
+        this.addRole(userRole);
+    }
+
     public String getName() {
         return name;
     }
@@ -38,12 +45,7 @@ public class User extends AbstractEntity {
         return Collections.unmodifiableList(roles);
     }
 
-    public User() {
-        roles = new ArrayList<>();
-        UserRole userRole = new UserRole();
-        userRole.setRole("User");
-        this.addRole(userRole);
-    }
+
 
     public void addRole(UserRole role) {
         this.roles.add(role);
