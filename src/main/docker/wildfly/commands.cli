@@ -1,0 +1,17 @@
+# Run the commands in an embedded server
+embed-server
+
+# Add postgres module
+module add --name=org.postgres --resources=/tmp/postgresql-${postgres.version}.jdbc4.jar --dependencies=javax.api,javax.transaction.api
+
+# Add Postgres driver
+/subsystem=datasources/jdbc-driver=postgres:add(driver-name="postgres",driver-module-name="org.postgres",driver-class-name=org.postgresql.Driver)
+
+# Add datasouce
+data-source add --jndi-name=java:jboss/datasources/AccountrDS --name=AccountrDS --connection-url=jdbc:postgresql://46.101.243.90:5432/cocktail --driver-name=postgres --user-name=cocktailuser --password=cocktail
+
+# Configure the security domain
+/subsystem=security/security-domain=cocktailSecurityDomain/:add(cache-type=default)
+/subsystem=security/security-domain=mymusicSecurityDomain/authentication=classic:add(login-modules=[{"code"=>"Database", "flag"=>"required" , module-options=>["dsJndiName"=>"java:jboss/datasources/AccountrLocalDS", "principalsQuery"=>"SELECT password FROM accountr.User WHERE name = ?", "rolesQuery" => "SELECT UserRole.role, 'Roles' FROM accountr.UserRole LEFT JOIN accountr.User on UserRole.user_id = User.id WHERE User.name = ?", "hashAlgorithm" => "SHA-256", "hashEncoding" => "base64", "hashCharset" => "UTF-8", "hashUserPassword" => "true", "hashStorePassword" => "false"]}])
+
+stop-embedded-server
