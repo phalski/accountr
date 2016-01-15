@@ -113,7 +113,7 @@
                                 <artifactItem>
                                     <groupId>org.wildfly</groupId>
                                     <artifactId>wildfly-dist</artifactId>
-                                    <version>9.0.1.Final</version>
+                                    <version>9.0.2.Final</version>
                                     <type>zip</type>
                                     <overWrite>false</overWrite>
                                     <outputDirectory>target</outputDirectory>
@@ -134,8 +134,8 @@
                     <systemPropertyVariables>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                         <!-- the maven dependency plugin will have already downloaded the server on /target -->
-                        <jboss.home>${project.basedir}/target/wildfly-9.0.1.Final</jboss.home>
-                        <module.path>${project.basedir}/target/wildfly-9.0.1.Final/modules</module.path>
+                        <jboss.home>${project.basedir}/target/wildfly-9.0.2.Final</jboss.home>
+                        <module.path>${project.basedir}/target/wildfly-9.0.2.Final/modules</module.path>
                     </systemPropertyVariables>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                 </configuration>
