@@ -41,7 +41,7 @@ public class AccountrServiceBean {
     public List<Account> select(String name) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
-        return dab.namedQuery(Account.class,"findByName", parameters);
+        return dab.namedQuery(Account.class,"account.findByName", parameters);
     }
 
     @RolesAllowed("User")

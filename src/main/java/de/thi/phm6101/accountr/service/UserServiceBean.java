@@ -1,6 +1,5 @@
 package de.thi.phm6101.accountr.service;
 
-import de.thi.phm6101.accountr.domain.Account;
 import de.thi.phm6101.accountr.domain.User;
 import de.thi.phm6101.accountr.persistence.DataAccessBean;
 import org.apache.log4j.LogManager;
@@ -27,14 +26,14 @@ public class UserServiceBean {
         return Optional.ofNullable(dab.get(User.class, id));
     }
 
-    public List<Account> select(String name) {
+    public List<User> select(String name) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", name);
-        return dab.namedQuery(Account.class,"findByName", parameters);
+        return dab.namedQuery(User.class, "user.findByName", parameters);
     }
 
     public User insert(User user) throws NoSuchAlgorithmException {
-        if (dab.exists(user)) {
+        if (equalExists(user)) {
             throw new EntityExistsException(String.format("User '%s' already exists.", user.getName()));
         }
 
@@ -42,6 +41,10 @@ public class UserServiceBean {
         dab.insert(user);
         LOGGER.info(String.format("Inserted user '%s' with id '%s'", user.getName(), user.getId()));
         return user;
+    }
+
+    public boolean equalExists(User user) {
+        return !select(user.getName()).isEmpty();
     }
 
     private String encodePassword(String password) throws NoSuchAlgorithmException {

@@ -6,6 +6,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,6 +37,8 @@ public class UserBean implements Serializable {
 
     @PostConstruct
     public void initialize() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+
         Optional<User> optionalAccount = userServiceBean.select(userId);
         setUser(optionalAccount.orElse(new User()));
 

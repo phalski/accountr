@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "findByName",
+        @NamedQuery(name = "account.findByName",
                 query = "SELECT t FROM Account as t WHERE t.name LIKE :name")
 })
 public class Account extends AbstractEntity{
