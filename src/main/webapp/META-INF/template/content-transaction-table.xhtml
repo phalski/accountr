@@ -16,7 +16,9 @@
             <f:facet name="header">
                 <h:outputText value="#{msg['domain.transaction.date.label']}"/>
             </f:facet>
-            <h:outputText value="#{transaction.date}"/>
+            <h:outputText value="#{transaction.date}">
+                <f:convertDateTime pattern="dd/MM/yyyy" />
+            </h:outputText>
         </h:column>
         <h:column>
             <f:facet name="header">

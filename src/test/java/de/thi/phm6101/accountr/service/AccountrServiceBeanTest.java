@@ -56,7 +56,6 @@ public class AccountrServiceBeanTest {
     public static WebArchive createDeployment() {
         return ShrinkWrap.create(WebArchive.class)
                 .addClass(EntityFactory.class)
-                .addClass(AccountrService.class)
                 .addClass(AccountrServiceBean.class)
                 .addClass(DataAccessBean.class)
                 .addClass(Account.class)

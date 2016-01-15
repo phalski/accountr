@@ -2,11 +2,14 @@ package de.thi.phm6101.accountr.web.model;
 
 import de.thi.phm6101.accountr.domain.Account;
 import de.thi.phm6101.accountr.service.AccountrServiceBean;
+import de.thi.phm6101.accountr.validation.MessageFactory;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import javax.annotation.PostConstruct;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -87,11 +90,13 @@ public class AccountBean implements Serializable {
 
     public String doInsertOrUpdate() {
         logger.info(String.format("Account %s %s %s", account.getId(), account.getName(), account.getDescription()));
+
         if (accountrServiceBean.exists(account)) {
             accountrServiceBean.update(account);
         } else {
             accountrServiceBean.insert(account);
         }
+
 
         return "accounts.xhtml?faces-redirect=true";
     }

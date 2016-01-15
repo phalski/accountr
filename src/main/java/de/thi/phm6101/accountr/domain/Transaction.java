@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by philipp on 21/12/15.
@@ -32,6 +33,8 @@ public class Transaction extends AbstractEntity {
     @Column(length = 100000) // forec blob
     @Lob
     private byte[] receiptImage;
+
+    private UUID uuid = UUID.randomUUID();
 
 
     public Account getAccount() {
@@ -89,6 +92,10 @@ public class Transaction extends AbstractEntity {
         this.receiptImage = receiptImage;
     }
 
+    public UUID getUuid() {
+        return uuid;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -96,23 +103,13 @@ public class Transaction extends AbstractEntity {
 
         Transaction that = (Transaction) o;
 
-        if (Double.compare(that.getAmount(), getAmount()) != 0) return false;
-        if (getAccount() != null ? !getAccount().equals(that.getAccount()) : that.getAccount() != null) return false;
-        if (getDate() != null ? !getDate().equals(that.getDate()) : that.getDate() != null) return false;
-        return getDescription() != null ? getDescription().equals(that.getDescription()) : that.getDescription() == null;
+        return getUuid().equals(that.getUuid());
 
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = getAccount() != null ? getAccount().hashCode() : 0;
-        temp = Double.doubleToLongBits(getAmount());
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (getDate() != null ? getDate().hashCode() : 0);
-        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
-        return result;
+        return getUuid().hashCode();
     }
 }
 
