@@ -18,7 +18,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Authorized Users</web-resource-name>
-            <url-pattern>/account-form.xhtml</url-pattern>
+            <!--<url-pattern>/account-form.xhtml</url-pattern>-->
             <url-pattern>/api/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>

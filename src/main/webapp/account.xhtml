@@ -3,124 +3,51 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:param name="title" value="#{accountBean.account.name}"/>
 
     <ui:define name="head">
         <f:metadata>
-            <f:viewParam name="accountId" value="#{accountBean.accountId}" />
-            <f:viewAction action="#{accountBean.initialize}" />
-            <f:viewAction action="#{transactionBean.initialize}" />
+            <f:viewParam name="accountId" value="#{accountBean.accountId}"/>
+            <f:viewAction action="#{accountBean.initialize}"/>
         </f:metadata>
     </ui:define>
 
     <ui:define name="content">
-
-        <b:container>
-            <b:row>
-                <b:column>
-                    <ol class="breadcrumb">
-                        <li><h:link outcome="accounts" value="#{msg['page.accounts.title']}"/></li>
-                        <li class="active"><h:outputText value="#{accountBean.account.name}"/></li>
-                    </ol>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column>
-                    <h1>#{accountBean.account.name}</h1>
-                    <p>#{accountBean.account.description}</p>
-                </b:column>
-                <b:column>
-                    <p><h:outputText value="#{msg['domain.account.transactions.label']}"/></p>
-                    <p>
-                        <b:button look="primary" value="Add" outcome="transaction-form">
-                            <f:param name="accountId" value="#{accountBean.account.id}"/>
-                        </b:button>
-                    </p>
-                    <h:dataTable value="#{accountBean.account.transactions}" var="transaction"
-                                 styleClass="table">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msg['domain.transaction.description.label']}"/>
-                            </f:facet>
-                            <h:outputText value="#{transaction.description}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msg['domain.transaction.date.label']}"/>
-                            </f:facet>
-                            <h:outputText value="#{transaction.date}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msg['domain.transaction.receipt.label']}"/>
-                            </f:facet>
-                            <h:panelGroup href="#receipt-modal-#{transaction.id}" rendered="#{transaction.receiptImage != null}">
-                                <a class="glyphicon glyphicon-list-alt" href="#receipt-modal-#{transaction.id}" data-toggle="modal"></a>
-                            </h:panelGroup>
-                            <!--<div id="receipt-modal-#{transaction.id}" class="modal fade" role="dialog">-->
-                                <!--<div class="modal-dialog">-->
-
-                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
-                                    <!--<div class="modal-content">-->
-                                        <!--<div class="modal-header">-->
-                                            <!--<button type="button" class="close" data-dismiss="modal"></button>-->
-                                            <!--<h4 class="modal-title">#{msg['page.account.receiptModal.title']}</h4>-->
-                                        <!--</div>-->
-                                        <!--<div class="modal-body">-->
-                                            <!--<p:graphicImage value="#{receiptImageBean.image}">-->
-                                                <!--<f:param name="transactionID" value="#{transaction.id}" />-->
-                                            <!--</p:graphicImage>-->
-                                        <!--</div>-->
-                                        <!--<div class="modal-footer">-->
-                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-
-                                <!--</div>-->
-                            <!--</div>-->
-
-                            <!--<div id="receipt-modal-#{transaction.id}" class="modal fade" role="dialog">-->
-                                <!--<div class="modal-dialog">-->
-
-                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
-                                    <!--<div class="modal-content">-->
-                                        <!--<div class="modal-header">-->
-                                            <!--<button type="button" class="close" data-dismiss="modal"></button>-->
-                                            <!--<h4 class="modal-title">Modal Header</h4>-->
-                                        <!--</div>-->
-                                        <!--<div class="modal-body">-->
-                                            <!--<p>Some text in the modal.</p>-->
-                                        <!--</div>-->
-                                        <!--<div class="modal-footer">-->
-                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-
-                                <!--</div>-->
-                            <!--</div>-->
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{msg['domain.transaction.amount.label']}"/>
-                            </f:facet>
-                            <h:outputText value="#{transaction.amount}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                            </f:facet>
-                            <h:form class="pull-right">
-                            <h:commandLink action="#{transactionBean.doDelete(transaction)}">
-                                <i class="glyphicon glyphicon-remove"/>
-                            </h:commandLink>
-                            </h:form>
-                        </h:column>
-                    </h:dataTable>
-                </b:column>
-            </b:row>
-        </b:container>
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li><h:link outcome="accounts" value="#{msg['page.accounts.title']}"/></li>
+                    <li class="active"><h:outputText value="#{accountBean.account.name}"/></li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>#{accountBean.account.name}</h1>
+                <p>
+                    #{accountBean.account.description}
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3><h:outputText value="#{msg['domain.account.transactions.label']}"/></h3>
+                <p>
+                    <h:button styleClass="btn btn-primary" value="Add" outcome="transaction-form">
+                        <f:param name="accountId" value="#{accountBean.account.id}"/>
+                    </h:button>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ui:insert name="transaction-table">
+                    <ui:include src="META-INF/template/content-transaction-table.xhtml"/>
+                </ui:insert>
+            </div>
+        </div>
 
     </ui:define>
 

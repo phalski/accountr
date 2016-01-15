@@ -24,6 +24,8 @@ public class Account extends AbstractEntity{
 
     private String description;
 
+    private double initialBalance;
+
     private Currency currency;
 
     //
@@ -78,8 +80,16 @@ public class Account extends AbstractEntity{
         this.description = description;
     }
 
+    public double getInitialBalance() {
+        return initialBalance;
+    }
+
+    public void setInitialBalance(double initialBalance) {
+        this.initialBalance = initialBalance;
+    }
+
     public double getBalance() {
-        return transactions.stream().mapToDouble(Transaction::getAmount).summaryStatistics().getSum();
+        return initialBalance + transactions.stream().mapToDouble(Transaction::getAmount).summaryStatistics().getSum();
     }
 
     public Currency getCurrency() {

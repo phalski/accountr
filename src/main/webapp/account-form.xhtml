@@ -3,77 +3,91 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui">
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:param name="title" value="#{msg['page.account.title']}"/>
 
     <ui:define name="head">
         <f:metadata>
-            <f:viewParam name="accountId" value="#{accountBean.accountId}" />
-            <f:viewAction action="#{accountBean.initialize}" />
+            <f:viewParam name="accountId" value="#{accountBean.accountId}"/>
+            <f:viewAction action="#{accountBean.initialize}"/>
         </f:metadata>
     </ui:define>
 
     <ui:define name="content">
-        <b:container>
-            <b:row>
-                <b:column>
-                    <ol class="breadcrumb">
-                        <li><h:link outcome="accounts" value="#{msg['page.accounts.title']}"/></li>
-                        <li class="active">
-                            <h:outputText rendered="#{accountBean.isNewAccount}" value="#{msg['page.account.new']}"/>
-                            <h:outputText rendered="#{!accountBean.isNewAccount}" value="#{accountBean.account.name}"/>
-                        </li>
-                    </ol>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column>
-                    <h1>
-                        <h:outputText rendered="#{accountBean.isNewAccount}" value="#{msg['action.add']} #{msg['domain.account']}"/>
-                        <h:outputText rendered="#{!accountBean.isNewAccount}" value="#{msg['action.edit']} #{msg['domain.account']}"/>
-                    </h1>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column>
-                    <h:form class="form-horizontal" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <h:outputLabel styleClass="col-sm-1 control-label" value="#{msg['domain.account.name.label']}" />
-                            <div class="col-sm-4">
-                                <h:panelGroup rendered="#{!accountBean.isNewAccount}">
-                                    <p class="form-control-static">#{accountBean.account.name}</p>
-                                </h:panelGroup>
-                                <h:inputText rendered="#{accountBean.isNewAccount}" styleClass="form-control" value="#{accountBean.account.name}" disabled="#{!accountBean.isNewAccount}"/>
-                            </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li><h:link outcome="accounts" value="#{msg['page.accounts.title']}"/></li>
+                    <li class="active">
+                        <h:outputText rendered="#{accountBean.isNewAccount}" value="#{msg['page.account.new']}"/>
+                        <h:outputText rendered="#{!accountBean.isNewAccount}" value="#{accountBean.account.name}"/>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>
+                <h:outputText rendered="#{accountBean.isNewAccount}"
+                              value="#{msg['action.add']} #{msg['domain.account']}"/>
+                <h:outputText rendered="#{!accountBean.isNewAccount}"
+                              value="#{msg['action.edit']} #{msg['domain.account']}"/>
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <p>
+                <h:form class="form-horizontal" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <h:outputLabel styleClass="col-sm-2 control-label"
+                                       value="#{msg['domain.account.name.label']}"/>
+                        <div class="col-sm-4">
+                            <h:panelGroup rendered="#{!accountBean.isNewAccount}">
+                                <p class="form-control-static">#{accountBean.account.name}</p>
+                            </h:panelGroup>
+                            <h:inputText rendered="#{accountBean.isNewAccount}" styleClass="form-control"
+                                         value="#{accountBean.account.name}"
+                                         disabled="#{!accountBean.isNewAccount}"/>
                         </div>
-                        <div class="form-group">
-                            <h:outputLabel styleClass="col-sm-1 control-label" value="#{msg['domain.account.description.label']}" />
-                            <div class="col-sm-4">
-                                <h:inputText styleClass="form-control" value="#{accountBean.account.description}"/>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel styleClass="col-sm-2 control-label"
+                                       value="#{msg['domain.account.description.label']}"/>
+                        <div class="col-sm-4">
+                            <h:inputText styleClass="form-control" value="#{accountBean.account.description}"/>
                         </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-1 col-sm-4">
-                                <div class="form-inline">
-                                    <div class="form-group">
-                                        <div class="col-sm-4">
-                                            <b:commandButton look="primary" value="#{msg['action.save']}" action="#{accountBean.doInsertOrUpdate}"/>
-                                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel styleClass="col-sm-2 control-label"
+                                       value="#{msg['domain.account.initialBalance.label']}"/>
+                        <div class="col-sm-4">
+                            <h:inputText styleClass="form-control" value="#{accountBean.account.initialBalance}"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-4">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <h:commandButton styleClass="btn btn-primary" value="#{msg['action.save']}"
+                                                         action="#{accountBean.doInsertOrUpdate}"/>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-4">
-                                            <b:commandButton value="#{msg['action.cancel']}" action="/accounts.xhtml?faces-redirect=true"/>
-                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <h:commandButton styleClass="btn btn-default" value="#{msg['action.cancel']}"
+                                                         action="/accounts.xhtml?faces-redirect=true"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                    </h:form>
-                </b:column>
-            </b:row>
-        </b:container>
+                </h:form>
+            </p>
+        </div>
+
     </ui:define>
 
 </ui:composition>

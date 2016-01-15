@@ -18,7 +18,7 @@ import java.util.Optional;
 @ViewScoped
 public class AccountBean implements Serializable {
 
-    private static final Logger LOGGER = LogManager.getLogger(AccountBean.class);
+    private static final Logger logger = LogManager.getLogger(AccountBean.class);
 
     @Inject
     private AccountrServiceBean accountrServiceBean;
@@ -28,8 +28,6 @@ public class AccountBean implements Serializable {
     private long accountId;
 
     private List<Account> accountList;
-
-    private boolean isNewAccount;
 
     private String search = "";
 
@@ -50,7 +48,7 @@ public class AccountBean implements Serializable {
     }
 
     public boolean getIsNewAccount() {
-        return isNewAccount;
+        return account == null || account.getId() == 0;
     }
 
     public List<Account> getAccountList() {
@@ -67,21 +65,20 @@ public class AccountBean implements Serializable {
 
     /// LOGIC
 
-    @PostConstruct
     public void initialize() {
         Optional<Account> optionalAccount = accountrServiceBean.select(accountId);
         setAccount(optionalAccount.orElse(new Account()));
-        isNewAccount = !optionalAccount.isPresent();
 
-        if (optionalAccount.isPresent()) {
-            LOGGER.info(String.format("initialize: Account-ID: %s", accountId));
+        if (getIsNewAccount()) {
+            logger.info(String.format("AccountBean: Account is new"));
         } else {
-            LOGGER.info("initialize: Account-ID: -");
+            logger.info(String.format("AccountBean: Account has ID '%d'", accountId));
         }
     }
 
     public void initializeList() {
         accountList = getSearch().isEmpty() ? accountrServiceBean.select() : accountrServiceBean.select(getSearch());
+        logger.info(String.format("AccountBean: Current list contains %d accounts", accountList.size()));
     }
 
     public String doSearch() {
@@ -89,7 +86,7 @@ public class AccountBean implements Serializable {
     }
 
     public String doInsertOrUpdate() {
-        LOGGER.info(String.format("Account %s %s %s", account.getId(), account.getName(), account.getDescription()));
+        logger.info(String.format("Account %s %s %s", account.getId(), account.getName(), account.getDescription()));
         if (accountrServiceBean.exists(account)) {
             accountrServiceBean.update(account);
         } else {
@@ -100,7 +97,7 @@ public class AccountBean implements Serializable {
     }
 
     public String doDelete(Account account) {
-        LOGGER.info(String.format("doDelete: accountId:%s", account.getId()));
+        logger.info(String.format("doDelete: accountId:%s", account.getId()));
         if (accountrServiceBean.exists(account)) {
             accountrServiceBean.delete(account);
         }

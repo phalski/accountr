@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+            <div class="panel-title">
+                <strong>
+                    <h:link outcome="account" value="#{account.name}">
+                        <f:param name="accountId" value="#{account.id}"/>
+                    </h:link>
+                </strong>
+                <h:form rendered="#{userSessionBean.isSignedIn}" styleClass="pull-right">
+                    <h:link outcome="account-form">
+                        <f:param name="accountId" value="#{account.id}"/>
+                        <i class="glyphicon glyphicon-edit"/>
+                    </h:link>
+                    <h:outputText value=" "/>
+                    <h:commandLink action="#{accountBean.doDelete(account)}">
+                        <i class="glyphicon glyphicon-remove"/>
+                    </h:commandLink>
+                </h:form>
+            </div>
+
+        </div>
+        <div class="panel-body">
+            <h:outputText value="#{account.description}"/>
+
+            <span class="pull-right">
+                <strong>
+                    <h:outputText value="#{account.currency.symbol}"/>
+                    <h:outputText value="#{account.balance}">
+                        <f:attribute name="currencySymbol" value="#{account.currency.symbol}"/>
+                        <f:convertNumber type="currency" groupingUsed="true" maxFractionDigits="2"
+                                         currencySymbol="#{currencySymbol}"/>
+                    </h:outputText>
+                </strong>
+            </span>
+
+
+        </div>
+    </div>
+</ui:composition>

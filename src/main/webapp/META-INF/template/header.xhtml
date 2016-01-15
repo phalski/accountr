@@ -1,40 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:b="http://bootsfaces.net/ui">
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <b:navBar brand="#{msg['global.appName']}" brandHref="accounts.xhtml">
-        <b:navbarLinks>
-            <b:navLink value="Home" href="#"></b:navLink>
-            <b:navLink value="Link" href="#"></b:navLink>
-            <b:navLink value="Link" href="#"></b:navLink>
-        </b:navbarLinks>
-
-        <h:form class="navbar-form pull-right" id="loginForm" action="j_security_check" rendered="#{!userSessionBean.isSignedIn}" >
-            <div class="form-group">
-                <label class="sr-only" for="j_username">Username</label>
-                <h:inputText type="text" class="form-control"  id="j_username" required="true" name="j_username" placeholder="Username" value="#{userSessionBean.login}"/>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#accountr-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="accounts.xhtml"><span class="glyphicon glyphicon-piggy-bank" aria-hidden="true">#{msg['header.brandName']}</span></a>
             </div>
-            <div class="form-group">
-                <label class="sr-only" for="j_password">Password</label>
-                <h:inputSecret type="password" class="form-control" id="j_password" required="true" name="j_password"  placeholder="Password" value="#{userSessionBean.password}"/>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="accountr-navbar-collapse-1">
+                <!--<ul class="nav navbar-nav">-->
+                    <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a>-->
+                    <!--</li>-->
+                    <!--<li><a href="#">Link</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+                <h:form class="navbar-form navbar-right" rendered="#{request.remoteUser == null}">
+                    <div class="form-group">
+                        <a href="user-form.xhtml">#{msg['action.signUp']}</a>
+                    </div>
+                    <div class="form-group">
+                        <h:inputText type="text" class="form-control" value="#{userSessionBean.login}"/>
+                    </div>
+                    <div class="form-group">
+                        <h:inputSecret type="password" class="form-control" value="#{userSessionBean.password}"/>
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton type="submit" class="btn btn-default" action="#{userSessionBean.doSignIn}" value="#{msg['action.signIn']}"/>
+                    </div>
+                </h:form>
+                <h:form class="navbar-form pull-right" rendered="#{request.remoteUser != null}" >
+                    <div class="form-group">
+                        <p class="form-control-static">
+                            <h:outputText value="${msg['header.signedInText']} ${request.remoteUser}"/>
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <h:commandButton type="submit" class="btn btn-default" action="#{userSessionBean.doSignOut}" value="#{msg['action.signOut']}"/>
+                    </div>
+                </h:form>
             </div>
-            <h:commandButton type="submit" class="btn btn-default" action="#{userSessionBean.doSignIn}" value="Sign in"/>
-        </h:form>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
 
-        <h:form class="navbar-form pull-right" id="logoutForm" rendered="#{userSessionBean.isSignedIn}" >
-            <h:commandButton type="submit" class="btn btn-default" action="#{userSessionBean.doSignOut}" value="Sign out"/>
-        </h:form>
-
-        <ul class="nav navbar-nav navbar-right">
-            <h:panelGroup rendered="#{!userSessionBean.isSignedIn}">
-            <li><a href="user-form.xhtml">Sign up</a></li>
-            </h:panelGroup>
-            <h:panelGroup rendered="#{userSessionBean.isSignedIn}">
-                <li><p class="navbar-text">#{msg['header.signedInText']} #{request.remoteUser}</p></li>
-            </h:panelGroup>
-
-        </ul>
-    </b:navBar>
 </ui:composition>

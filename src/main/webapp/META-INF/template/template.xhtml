@@ -9,6 +9,7 @@
 <h:head>
     <title><h:outputText value="#{msg['global.appName']} - #{title}"/></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" media="all" href="webjars/bootstrap/3.2.0/css/bootstrap.min.css"/>
     <ui:insert name="head"/>
 </h:head>
 <h:body>
@@ -17,7 +18,7 @@
         <ui:insert name="header">Default header</ui:insert>
     </div>
 
-    <div id="content">
+    <div id="content" class="container">
         <ui:insert name="content">Default content</ui:insert>
     </div>
 
@@ -26,5 +27,8 @@
     </div>
 
     <!-- Scripts load last -->
+    <script type="text/javascript" src="webjars/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap-datepicker/1.0.1/js/bootstrap-datepicker.js"></script>
 </h:body>
 </html>

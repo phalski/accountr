@@ -1,13 +1,8 @@
 package de.thi.phm6101.accountr.domain;
 
-import net.bootsfaces.render.A;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
-/**
- * Created by philipp on 27/12/15.
- */
 public class EntityFactory {
 
     static final private Random RANDOM = new Random();

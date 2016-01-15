@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:dataTable value="#{accountBean.account.transactions}" var="transaction"
+                 styleClass="table">
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="#{msg['domain.transaction.description.label']}"/>
+            </f:facet>
+            <h:outputText value="#{transaction.description}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="#{msg['domain.transaction.date.label']}"/>
+            </f:facet>
+            <h:outputText value="#{transaction.date}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="#{msg['domain.transaction.receipt.label']}"/>
+            </f:facet>
+            <h:panelGroup href="#receipt-modal-#{transaction.id}" rendered="#{transaction.receiptImage != null}">
+                <a class="glyphicon glyphicon-list-alt" onclick="$('#modal-image-transaction-#{transaction.id}').modal('show');"/>
+                <ui:insert name="modal-image">
+                    <ui:include src="modal-image.xhtml">
+                        <ui:param name="transaction" value="#{transaction}"/>
+                    </ui:include>
+                </ui:insert>
+            </h:panelGroup>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="#{msg['domain.transaction.amount.label']}"/>
+            </f:facet>
+            <h:outputText value="#{transaction.amount}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+            </f:facet>
+            <h:form class="pull-right">
+                <h:commandLink action="#{transactionBean.doDelete(transaction)}">
+                    <i class="glyphicon glyphicon-remove"/>
+                </h:commandLink>
+            </h:form>
+        </h:column>
+    </h:dataTable>
+
+</ui:composition>

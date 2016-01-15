@@ -8,8 +8,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 
-import javax.annotation.PostConstruct;
-
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,7 +24,7 @@ import java.util.Optional;
 @ViewScoped
 public class TransactionBean implements Serializable {
 
-    private static final Logger LOGGER = LogManager.getLogger(TransactionBean.class);
+    private static final Logger logger = LogManager.getLogger(TransactionBean.class);
 
     @Inject
     private AccountrServiceBean accountrServiceBean;
@@ -46,22 +44,14 @@ public class TransactionBean implements Serializable {
     @Transient
     private Part part;
 
-    @PostConstruct
     public void initialize() {
-        LOGGER.info(String.format("initialize: Account-ID: %d, Transaction-ID: %d", accountId, transactionId));
-
         Optional<Account> accountOptional = accountrServiceBean.select(accountId);
         if (accountOptional.isPresent()) {
             account = accountOptional.get();
             transaction = new Transaction();
+            logger.info(String.format("TransactionBean: Prepared new transaction for account '%d'", accountId));
         } else {
-            // update transaction
-            Optional<Transaction> transactionOptional = accountrServiceBean.selectTransaction(transactionId);
-            transaction = transactionOptional.orElse(null);
-        }
-
-        if (transaction == null) {
-            LOGGER.error("No transaction created");
+            logger.error(String.format("TransactionBean: No account found for id %d", accountId));
         }
     }
 
@@ -123,7 +113,7 @@ public class TransactionBean implements Serializable {
     }
 
     public String doDelete(Transaction transaction) {
-        LOGGER.info(String.format("Deleting transaction %d", transaction.getId()));
+        logger.info(String.format("Deleting transaction %d", transaction.getId()));
 
         accountrServiceBean.deleteTransaction(transaction);
 
@@ -145,7 +135,7 @@ public class TransactionBean implements Serializable {
             try {
                 transaction.setReceiptImage(IOUtils.toByteArray(part.getInputStream()));
             } catch (IOException e) {
-                LOGGER.error("Upload failed:" + e.toString());
+                logger.error("Upload failed:" + e.toString());
             }
         }
     }

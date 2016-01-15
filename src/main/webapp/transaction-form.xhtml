@@ -16,59 +16,80 @@
     </ui:define>
 
     <ui:define name="content">
-        <b:container>
-            <b:row>
-                <b:column>
-                </b:column>
-            </b:row>
-            <b:row>
-                <b:column>
-                    <h:form class="form-horizontal" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <h:outputLabel styleClass="col-sm-2 control-label" value="#{msg['domain.transaction.description.label']}" />
-                            <div class="col-sm-10">
-                                <h:inputText styleClass="form-control" value="#{transactionBean.transaction.description}"/>
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li><h:link outcome="accounts" value="#{msg['page.accounts.title']}"/></li>
+                    <li>
+                        <h:link outcome="account" value="#{transactionBean.account.name}">
+                            <f:param name="accountId" value="#{transactionBean.account.id}"/>
+                        </h:link>
+                    </li>
+                    <li class="active">
+                        <h:outputText value="#{msg['page.transaction.new']}"/>
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>
+                    <h:outputText value="#{msg['action.add']} #{msg['domain.transaction']}"/>
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <p>
+            <h:form class="form-horizontal" enctype="multipart/form-data">
+                <div class="form-group">
+                    <h:outputLabel styleClass="col-sm-2 control-label" value="#{msg['domain.transaction.description.label']}" />
+                    <div class="col-sm-4">
+                        <h:inputText styleClass="form-control" value="#{transactionBean.transaction.description}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel styleClass="col-sm-2 control-label" value="#{msg['domain.transaction.date.label']}" />
+                    <div class="col-sm-4">
+                        <div class="input-group date" data-provide="datepicker" onclick="$('.datepicker').datepicker();">
+                            <h:inputText type="text" class="form-control datepicker" value="#{transactionBean.transaction.date}"/>
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <h:outputLabel styleClass="col-sm-2 control-label" value="#{msg['domain.transaction.date.label']}" />
-                            <div class="col-sm-10">
-                                <b:datepicker styleClass="form-control" value="#{transactionBean.transaction.date}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel styleClass="col-sm-2 control-label" value="#{msg['domain.transaction.amount.label']}" />
+                    <div class="col-sm-4">
+                        <h:inputText styleClass="form-control" value="#{transactionBean.transaction.amount}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h:outputLabel styleClass="col-sm-2 control-label" value="#{msg['domain.transaction.receipt.label']}" />
+                    <div class="col-sm-4">
+                        <h:inputFile id="part" value="#{transactionBean.part}"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-4">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <h:commandButton styleClass="btn btn-primary" value="#{msg['action.save']}" action="#{transactionBean.doSave}"/>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel styleClass="col-sm-2 control-label" value="#{msg['domain.transaction.amount.label']}" />
-                            <div class="col-sm-10">
-                                <h:inputText styleClass="form-control" value="#{transactionBean.transaction.amount}"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <h:outputLabel styleClass="col-sm-2 control-label" value="#{msg['domain.transaction.receipt.label']}" />
-                            <div class="col-sm-10">
-                                <h:inputFile id="part" value="#{transactionBean.part}"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <div class="form-inline">
-                                    <div class="form-group">
-                                        <div class="col-sm-10">
-                                            <b:commandButton look="primary" value="#{msg['action.save']}" action="#{transactionBean.doSave}"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-10">
-                                            <b:commandButton value="#{msg['action.cancel']}" action="#{transactionBean.doCancel}"/>
-                                        </div>
-                                    </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <h:commandButton styleClass="btn btn-default" value="#{msg['action.cancel']}" action="#{transactionBean.doCancel}"/>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                    </h:form>
-                </b:column>
-            </b:row>
-        </b:container>
+            </h:form>
+            </p>
+        </div>
     </ui:define>
 
 </ui:composition>
