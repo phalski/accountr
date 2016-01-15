@@ -82,7 +82,9 @@ public class AccountBean implements Serializable {
     public String initialize() {
         Optional<Account> optionalAccount = accountrServiceBean.select(accountId);
 
-        if (!optionalAccount.isPresent()) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        String viewId = facesContext.getViewRoot().getViewId();
+        if (!viewId.equals("/account-form.xhtml") && !optionalAccount.isPresent()) {
             return "error";
         }
 
@@ -114,7 +116,6 @@ public class AccountBean implements Serializable {
         } else {
             accountrServiceBean.insert(account);
         }
-
 
         return "accounts.xhtml?faces-redirect=true";
     }

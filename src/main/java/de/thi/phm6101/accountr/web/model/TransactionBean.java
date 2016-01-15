@@ -111,10 +111,6 @@ public class TransactionBean implements Serializable {
         return String.format("account.xhtml?faces-redirect=true&accountId=%d", account.getId());
     }
 
-    public String doCancel() {
-        return String.format("account.xhtml?faces-redirect=true&accountId=%d", account.getId());
-    }
-
     public String doDelete(Transaction transaction) {
         logger.info(String.format("Deleting transaction %d", transaction.getId()));
 
