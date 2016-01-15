@@ -26,7 +26,7 @@ public class Account extends AbstractEntity{
 
     private double initialBalance;
 
-    private Currency currency;
+    private String currencyCode;
 
     //
     // CONSTRUCTION
@@ -34,7 +34,7 @@ public class Account extends AbstractEntity{
 
     public Account() {
         transactions = new ArrayList<>();
-        currency = Currency.getInstance(Locale.getDefault());
+        currencyCode = Currency.getInstance(Locale.getDefault()).getCurrencyCode();
     }
 
     //
@@ -92,12 +92,12 @@ public class Account extends AbstractEntity{
         return initialBalance + transactions.stream().mapToDouble(Transaction::getAmount).summaryStatistics().getSum();
     }
 
-    public Currency getCurrency() {
-        return currency;
+    public String getCurrencyCode() {
+        return currencyCode;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
     }
 
     //

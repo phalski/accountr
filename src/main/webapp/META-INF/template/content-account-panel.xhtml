@@ -31,11 +31,11 @@
 
             <span class="pull-right">
                 <strong>
-                    <h:outputText value="#{account.currency.symbol}"/>
+                    <h:outputText value="#{account.currencyCode}"/>
                     <h:outputText value="#{account.balance}">
-                        <f:attribute name="currencySymbol" value="#{account.currency.symbol}"/>
-                        <f:convertNumber type="currency" groupingUsed="true" maxFractionDigits="2"
-                                         currencySymbol="#{currencySymbol}"/>
+                        <!--<f:attribute name="currencySymbol" value="#{account.currency.symbol}"/>-->
+                        <!--<f:convertNumber type="currency" groupingUsed="true" maxFractionDigits="2"-->
+                                         <!--currencyCode=""/>-->
                     </h:outputText>
                 </strong>
             </span>
