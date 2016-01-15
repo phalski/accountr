@@ -12,6 +12,7 @@
                     <h:link outcome="account" value="#{account.name}">
                         <f:param name="accountId" value="#{account.id}"/>
                     </h:link>
+                    <span class="label label-primary">#{account.currencyCode}</span>
                 </strong>
                 <h:form rendered="#{request.remoteUser != null}" styleClass="pull-right">
                     <h:link outcome="account-form">
@@ -31,11 +32,9 @@
 
             <span class="pull-right">
                 <strong>
-                    <h:outputText value="#{account.currencyCode}"/>
+                    <h:outputText value="#{accountBean.getCurrencySymbol(account.currencyCode)} "/>
                     <h:outputText value="#{account.balance}">
-                        <!--<f:attribute name="currencySymbol" value="#{account.currency.symbol}"/>-->
-                        <!--<f:convertNumber type="currency" groupingUsed="true" maxFractionDigits="2"-->
-                                         <!--currencyCode=""/>-->
+                        <f:convertNumber type="currency" groupingUsed="true" maxFractionDigits="2" currencySymbol="#{null}"/>
                     </h:outputText>
                 </strong>
             </span>

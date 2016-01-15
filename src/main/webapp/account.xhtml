@@ -42,7 +42,7 @@
             <div class="col-md-12">
                 <h3><h:outputText value="#{msg['domain.account.transactions.label']}"/></h3>
                 <p>
-                    <h:button styleClass="btn btn-primary" value="Add" outcome="transaction-form">
+                    <h:button styleClass="btn btn-primary" rendered="#{request.remoteUser != null}" value="Add" outcome="transaction-form">
                         <f:param name="accountId" value="#{accountBean.account.id}"/>
                     </h:button>
                 </p>

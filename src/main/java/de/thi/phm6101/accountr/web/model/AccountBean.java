@@ -72,6 +72,11 @@ public class AccountBean implements Serializable {
         return Collections.unmodifiableList(currencyCodeList);
     }
 
+    public String getCurrencySymbol(String currencyCode) {
+        Currency currency = Currency.getInstance(currencyCode);
+        return (currency == null) ? "" : currency.getSymbol();
+    }
+
     /// LOGIC
 
     public void initialize() {

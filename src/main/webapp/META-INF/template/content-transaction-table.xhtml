@@ -39,7 +39,7 @@
             </f:facet>
             <h:outputText value="#{transaction.amount}"/>
         </h:column>
-        <h:column>
+        <h:column rendered="#{request.remoteUser != null}" >
             <f:facet name="header">
             </f:facet>
             <h:form class="pull-right">

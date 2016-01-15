@@ -24,13 +24,11 @@
         </div>
         <div class="row">
             <div class="col-md-1">
-                <p>
                 <h:form styleClass="form-inline">
                     <div class="form-group">
-                        <h:button styleClass="btn btn-primary" value="#{msg['action.add']}" outcome="account-form"/>
+                        <h:button styleClass="btn btn-primary" rendered="#{request.remoteUser != null}" value="#{msg['action.add']}" outcome="account-form"/>
                     </div>
                 </h:form>
-                </p>
             </div>
             <div class="col-md-4 col-md-offset-7">
                 <h:form styleClass="form-inline pull-right">
@@ -45,6 +43,7 @@
                 </h:form>
             </div>
         </div>
+        <div class="row"><br/></div>
         <div class="row">
             <ui:repeat value="#{accountBean.accountList}" var="account">
                 <div class="col-md-4">
