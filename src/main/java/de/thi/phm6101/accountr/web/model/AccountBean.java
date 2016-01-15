@@ -14,8 +14,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Named
 @ViewScoped
@@ -64,6 +63,13 @@ public class AccountBean implements Serializable {
 
     public void setSearch(String search) {
         this.search = search;
+    }
+
+    public List<String> getCurrencyCodeList() {
+        List<String> currencyCodeList = new ArrayList<>();
+        Currency.getAvailableCurrencies().forEach(c -> currencyCodeList.add(c.getCurrencyCode()));
+        Collections.sort(currencyCodeList);
+        return Collections.unmodifiableList(currencyCodeList);
     }
 
     /// LOGIC

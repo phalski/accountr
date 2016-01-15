@@ -52,7 +52,7 @@
                                 <f:validateLength minimum="4" maximum="32"/>
                                 <f:validator binding="#{accountNameValidator}"/>
                             </h:inputText>
-                            <h:message styleClass="help-block" for="input-name"></h:message>
+                            <h:message styleClass="help-block" for="input-name"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -62,7 +62,7 @@
                             <h:inputText id="input-description" name="input-description" styleClass="form-control" value="#{accountBean.account.description}">
                                 <f:validateLength minimum="1" maximum="200"/>
                             </h:inputText>
-                            <h:message styleClass="help-block" for="input-description"></h:message>
+                            <h:message styleClass="help-block" for="input-description"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -72,7 +72,17 @@
                             <h:inputText  id="input-initial-balance" name="input-initial-balance" styleClass="form-control" value="#{accountBean.account.initialBalance}">
                                 <f:validateDoubleRange/>
                             </h:inputText>
-                            <h:message styleClass="help-block" for="input-initial-balance"></h:message>
+                            <h:message styleClass="help-block" for="input-initial-balance"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h:outputLabel styleClass="col-sm-2 control-label"
+                                       value="#{msg['domain.account.currencyCode.label']}"/>
+                        <div class="col-sm-4">
+                            <h:selectOneMenu   id="input-currency-code" name="input-currency-code" styleClass="form-control" value="#{accountBean.account.currencyCode}">
+                                <f:selectItems value="#{accountBean.currencyCodeList}"/>
+                            </h:selectOneMenu>
+                            <h:message styleClass="help-block" for="input-currency-code"/>
                         </div>
                     </div>
                     <div class="form-group">
