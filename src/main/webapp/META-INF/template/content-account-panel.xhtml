@@ -13,7 +13,7 @@
                         <f:param name="accountId" value="#{account.id}"/>
                     </h:link>
                 </strong>
-                <h:form rendered="#{userSessionBean.isSignedIn}" styleClass="pull-right">
+                <h:form rendered="#{request.remoteUser != null}" styleClass="pull-right">
                     <h:link outcome="account-form">
                         <f:param name="accountId" value="#{account.id}"/>
                         <i class="glyphicon glyphicon-edit"/>

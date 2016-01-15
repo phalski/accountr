@@ -76,9 +76,4 @@ public class UserSessionBean implements Serializable {
         return null;
     }
 
-    public boolean getIsSignedIn() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
-        return Optional.ofNullable(externalContext.getRemoteUser()).isPresent();
-    }
 }
