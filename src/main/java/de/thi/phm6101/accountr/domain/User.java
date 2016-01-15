@@ -1,14 +1,15 @@
 package de.thi.phm6101.accountr.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "findByName",
+                query = "SELECT t FROM User as t WHERE t.name LIKE :name")
+})
 public class User extends AbstractEntity {
 
     private String name;

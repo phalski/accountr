@@ -28,13 +28,19 @@
                     <div class="form-group">
                         <h:outputLabel styleClass="col-sm-2 control-label" value="#{msg['domain.user.name.label']}" />
                         <div class="col-sm-4">
-                            <h:inputText styleClass="form-control" value="#{userBean.user.name}"/>
+                            <h:inputText id="input-name" styleClass="form-control" value="#{userBean.user.name}">
+                                <f:validateLength minimum="4" maximum="32"/>
+                            </h:inputText>
+                            <h:message for="input-name" styleClass="help-block"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <h:outputLabel styleClass="col-sm-2 control-label" value="#{msg['domain.user.password.label']}" />
                         <div class="col-sm-4">
-                            <h:inputSecret styleClass="form-control" value="#{userBean.user.password}"/>
+                            <h:inputSecret id="input-password"  styleClass="form-control" value="#{userBean.user.password}">
+                                <f:validateLength minimum="4" maximum="32"/>
+                            </h:inputSecret>
+                            <h:message for="input-password" styleClass="help-block"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -47,7 +53,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-4">
-                                        <h:commandButton styleClass="btn btn-default" value="#{msg['action.cancel']}" action="/accounts.xhtml?faces-redirect=true"/>
+                                        <h:link styleClass="btn btn-default" value="#{msg['action.cancel']}" outcome="/accounts.xhtml?faces-redirect=true"/>
                                     </div>
                                 </div>
                             </div>

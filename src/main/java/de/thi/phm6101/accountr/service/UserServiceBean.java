@@ -1,5 +1,6 @@
 package de.thi.phm6101.accountr.service;
 
+import de.thi.phm6101.accountr.domain.Account;
 import de.thi.phm6101.accountr.domain.User;
 import de.thi.phm6101.accountr.persistence.DataAccessBean;
 import org.apache.log4j.LogManager;
@@ -10,8 +11,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityExistsException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Optional;
+import java.util.*;
 
 @Stateless
 public class UserServiceBean {
@@ -25,6 +25,12 @@ public class UserServiceBean {
 
     public Optional<User> select(long id) {
         return Optional.ofNullable(dab.get(User.class, id));
+    }
+
+    public List<Account> select(String name) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("name", name);
+        return dab.namedQuery(Account.class,"findByName", parameters);
     }
 
     public User insert(User user) throws NoSuchAlgorithmException {

@@ -15,7 +15,7 @@ import javax.servlet.http.Part;
 public class ImageValidator implements Validator {
 
 
-    private static long MAX_FILE_SIZE = 100000;
+    private static long MAX_FILE_SIZE = 1000000;
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
