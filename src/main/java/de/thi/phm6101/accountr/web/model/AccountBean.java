@@ -79,8 +79,13 @@ public class AccountBean implements Serializable {
 
     /// LOGIC
 
-    public void initialize() {
+    public String initialize() {
         Optional<Account> optionalAccount = accountrServiceBean.select(accountId);
+
+        if (!optionalAccount.isPresent()) {
+            return "error";
+        }
+
         setAccount(optionalAccount.orElse(new Account()));
 
         if (getIsNewAccount()) {
@@ -88,6 +93,8 @@ public class AccountBean implements Serializable {
         } else {
             logger.info(String.format("AccountBean: Account has ID '%d'", accountId));
         }
+
+        return null;
     }
 
     public void initializeList() {

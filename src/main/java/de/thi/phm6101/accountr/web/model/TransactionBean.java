@@ -44,7 +44,7 @@ public class TransactionBean implements Serializable {
     @Transient
     private Part part;
 
-    public void initialize() {
+    public String initialize() {
         Optional<Account> accountOptional = accountrServiceBean.select(accountId);
         if (accountOptional.isPresent()) {
             account = accountOptional.get();
@@ -52,7 +52,10 @@ public class TransactionBean implements Serializable {
             logger.info(String.format("TransactionBean: Prepared new transaction for account '%d'", accountId));
         } else {
             logger.error(String.format("TransactionBean: No account found for id %d", accountId));
+            return "error";
         }
+
+        return null;
     }
 
 
