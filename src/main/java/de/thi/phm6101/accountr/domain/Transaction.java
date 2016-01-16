@@ -28,8 +28,6 @@ public class Transaction extends AbstractEntity {
     @NotNull
     private String description;
 
-    private String receiptFileName;
-
     @Column(length = 100000) // forec blob
     @Lob
     private byte[] receiptImage;
@@ -70,18 +68,6 @@ public class Transaction extends AbstractEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getReceiptFileName() {
-        return receiptFileName;
-    }
-
-    public boolean getHasReceipt() {
-        return receiptFileName != null && !receiptFileName.isEmpty();
-    }
-
-    public void setReceiptFileName(String receiptFileName) {
-        this.receiptFileName = receiptFileName;
     }
 
     public byte[] getReceiptImage() {
