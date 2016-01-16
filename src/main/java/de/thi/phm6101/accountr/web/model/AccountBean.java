@@ -102,7 +102,7 @@ public class AccountBean implements Serializable {
 
         Optional<String> viewIdOptional = jsfUtil.getCurrentViewId();
         if (viewIdOptional.isPresent()
-                && !viewIdOptional.get().equals("/account-form.xhtml")
+                && !"/account-form.xhtml".equals(viewIdOptional.get())
                 && !optionalAccount.isPresent())
         {
             return "error";
@@ -124,8 +124,8 @@ public class AccountBean implements Serializable {
      * @return outcome
      */
     public void initializeList() {
-        String search = getSearch();
-        accountList = (search == null || search.isEmpty()) ? accountrServiceBean.select() : accountrServiceBean.select(search);
+        String currentSearch = getSearch();
+        accountList = (currentSearch == null || currentSearch.isEmpty()) ? accountrServiceBean.select() : accountrServiceBean.select(currentSearch);
         logger.info(String.format("AccountBean: Current list contains %d accounts", accountList.size()));
     }
 

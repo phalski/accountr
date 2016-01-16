@@ -32,12 +32,18 @@ public class UserServiceBean {
         return dab.namedQuery(User.class, "user.findByName", parameters);
     }
 
-    public User insert(User user) throws NoSuchAlgorithmException, EntityExistsException {
+    public User insert(User user) throws EntityExistsException {
         if (equalExists(user)) {
             throw new EntityExistsException(String.format("User '%s' already exists.", user.getName()));
         }
 
-        user.setPassword(encodePassword(user.getPassword()));
+        try {
+            user.setPassword(encodePassword(user.getPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            LOGGER.warn("UserServiceBean: storing unencrypted password");
+            user.setPassword(user.getPassword());
+        }
+
         dab.insert(user);
         LOGGER.info(String.format("Inserted user '%s' with id '%s'", user.getName(), user.getId()));
         return user;

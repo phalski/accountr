@@ -27,8 +27,6 @@ public class UserBean implements Serializable {
     @Inject
     private UserServiceBean userServiceBean;
 
-    private long userId;
-
     private User user;
 
     public User getUser() {
@@ -41,7 +39,7 @@ public class UserBean implements Serializable {
 
     @PostConstruct
     public void initialize() {
-        User user = new User();
+        this.user = new User();
     }
 
     /**
