@@ -6,6 +6,10 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
+/**
+ * Abstract superclass for all JPA entities
+ * Ensures that all entities are created with a unique id
+ */
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
 

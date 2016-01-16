@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.Optional;
 
 /**
- * Created by philipp on 22/12/15.
+ * Named bean for all transaction related logic.
  */
 @Named
 @ViewScoped

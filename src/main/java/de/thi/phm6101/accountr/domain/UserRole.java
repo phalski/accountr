@@ -4,9 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 /**
- * Created by philipp on 09/01/16.
+ * User role for wildfly security
  */
-
 @Entity
 public class UserRole extends AbstractEntity {
 

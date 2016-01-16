@@ -11,6 +11,9 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+/**
+ * Validator to ensure unique user name
+ */
 @Named
 @RequestScoped
 public class UserNameValidator implements Validator {

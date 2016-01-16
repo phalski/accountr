@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * User class for wildfly security
+ */
 @Entity
 @NamedQueries({
         @NamedQuery(name = "user.findByName",
@@ -12,6 +15,7 @@ import java.util.List;
 })
 public class User extends AbstractEntity {
 
+    @Column(unique = true)
     private String name;
 
     private String password;
@@ -45,8 +49,6 @@ public class User extends AbstractEntity {
     public List<UserRole> getRoles() {
         return Collections.unmodifiableList(roles);
     }
-
-
 
     public void addRole(UserRole role) {
         this.roles.add(role);

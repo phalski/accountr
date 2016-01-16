@@ -12,7 +12,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.print.attribute.standard.Severity;
 
-
+/**
+ * Validator to ensure unique account name
+ */
 @Named
 @RequestScoped
 public class AccountNameValidator implements Validator {

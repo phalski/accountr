@@ -17,7 +17,7 @@ import java.io.Serializable;
 import java.util.Optional;
 
 /**
- * Created by philipp on 28/12/15.
+ * Named bean for all image related logic
  */
 @Named
 @ApplicationScoped
@@ -26,6 +26,11 @@ public class ReceiptImageBean implements Serializable {
     @Inject
     private AccountrServiceBean accountrServiceBean;
 
+    /**
+     * Returns an image from database as streamed content. This is necessary for rendering image with primefaces.
+     * @return image content
+     * @throws IOException
+     */
     public StreamedContent getImage() throws IOException {
         FacesContext context = FacesContext.getCurrentInstance();
 

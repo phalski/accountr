@@ -6,24 +6,27 @@ import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-
+/**
+ * Main entitiy
+ */
 @Entity
 @NamedQueries({
         @NamedQuery(name = "account.findByName",
                 query = "SELECT t FROM Account as t WHERE t.name LIKE :name")
 })
-public class Account extends AbstractEntity{
-
+public class Account extends AbstractEntity {
 
     @OneToMany(mappedBy = "account", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Transaction> transactions;
 
     @NotNull
+    @Column(unique = true)
     private String name;
 
     private String description;
 
+    @NotNull
     private double initialBalance;
 
     private String currencyCode;
@@ -88,6 +91,10 @@ public class Account extends AbstractEntity{
         this.initialBalance = initialBalance;
     }
 
+    /**
+     * Calculates balance over all transactions
+     * @return balance
+     */
     public double getBalance() {
         return initialBalance + transactions.stream().mapToDouble(Transaction::getAmount).summaryStatistics().getSum();
     }

@@ -10,6 +10,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 
+/**
+ * Validator to ensure correct file type and size for image upload
+ */
 @Named
 @RequestScoped
 public class ImageValidator implements Validator {

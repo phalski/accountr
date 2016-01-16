@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Optional;
 
+/**
+ * Named bean for user session handling
+ */
 @Named
 @RequestScoped
 public class UserSessionBean implements Serializable {

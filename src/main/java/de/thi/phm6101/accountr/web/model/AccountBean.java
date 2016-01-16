@@ -15,6 +15,9 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Named bean for all account related logic
+ */
 @Named
 @ViewScoped
 public class AccountBean implements Serializable {
@@ -67,6 +70,10 @@ public class AccountBean implements Serializable {
         this.search = search;
     }
 
+    /**
+     * Returns all currency codes for usage in EL
+     * @return currency code list
+     */
     public List<String> getCurrencyCodeList() {
         List<String> currencyCodeList = new ArrayList<>();
         Currency.getAvailableCurrencies().forEach(c -> currencyCodeList.add(c.getCurrencyCode()));
@@ -74,6 +81,11 @@ public class AccountBean implements Serializable {
         return Collections.unmodifiableList(currencyCodeList);
     }
 
+    /**
+     * Returns currency symbol for given code
+     * @param currencyCode currency code
+     * @return currency symbol or empty string if not found
+     */
     public String getCurrencySymbol(String currencyCode) {
         Currency currency = Currency.getInstance(currencyCode);
         return (currency == null) ? "" : currency.getSymbol();
@@ -81,6 +93,10 @@ public class AccountBean implements Serializable {
 
     /// LOGIC
 
+    /**
+     * Loads account from db or sets a new one. Also ensures redirection if view is not account-form
+     * @return outcome
+     */
     public String initialize() {
         Optional<Account> optionalAccount = accountrServiceBean.select(accountId);
 
@@ -103,6 +119,10 @@ public class AccountBean implements Serializable {
         return null;
     }
 
+    /**
+     * Evaluates search GET parameter and fetches matching entities. Loads all entities if search parameter not present.
+     * @return outcome
+     */
     public void initializeList() {
         String search = getSearch();
         accountList = (search == null || search.isEmpty()) ? accountrServiceBean.select() : accountrServiceBean.select(search);

@@ -47,6 +47,12 @@ public class UserServiceBean {
         return !select(user.getName()).isEmpty();
     }
 
+    /**
+     * Password hashing
+     * @param password Password
+     * @return hashed password
+     * @throws NoSuchAlgorithmException
+     */
     private String encodePassword(String password) throws NoSuchAlgorithmException {
         return Base64.getEncoder().encodeToString(
                 MessageDigest.getInstance("SHA-256").digest(password.getBytes()));
