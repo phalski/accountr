@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
-import javax.persistence.EntityExistsException;
+import de.thi.phm6101.accountr.exception.EntityExistsException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -144,9 +144,11 @@ public class DataAccessBeanTest {
     @Test(expected=Exception.class)
     public void thatAccountCantBeAddedTwice() throws Exception {
         Account account = validAccountList.get(0);
-        Account duplicate = validAccountList.get(0);
+        Account duplicate = new Account();
+        duplicate.setName(validAccountList.get(0).getName());
         dataAccessBean.insert(account);
         dataAccessBean.insert(duplicate);
+        fail();
     }
 
     @Test
