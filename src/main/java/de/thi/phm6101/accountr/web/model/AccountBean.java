@@ -3,14 +3,9 @@ package de.thi.phm6101.accountr.web.model;
 import de.thi.phm6101.accountr.domain.Account;
 import de.thi.phm6101.accountr.service.AccountrServiceBean;
 import de.thi.phm6101.accountr.util.JsfUtil;
-import de.thi.phm6101.accountr.validation.MessageFactory;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import javax.annotation.PostConstruct;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
