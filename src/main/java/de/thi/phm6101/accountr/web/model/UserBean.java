@@ -37,16 +37,7 @@ public class UserBean implements Serializable {
 
     @PostConstruct
     public void initialize() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-
-        Optional<User> optionalAccount = userServiceBean.select(userId);
-        setUser(optionalAccount.orElse(new User()));
-
-        if (optionalAccount.isPresent()) {
-            LOGGER.info(String.format("initialize: User-ID: %s", userId));
-        } else {
-            LOGGER.info("initialize: User-ID: -");
-        }
+        User user = new User();
     }
 
     public String doSignUp() {

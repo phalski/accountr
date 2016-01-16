@@ -26,14 +26,11 @@ public class TransactionBean implements Serializable {
 
     private static final Logger logger = LogManager.getLogger(TransactionBean.class);
 
-    @Inject
     private AccountrServiceBean accountrServiceBean;
 
     // view params
 
     private long accountId;
-
-    private long transactionId;
 
     // properties
 
@@ -43,6 +40,11 @@ public class TransactionBean implements Serializable {
 
     @Transient
     private Part part;
+
+    @Inject
+    public TransactionBean(AccountrServiceBean accountrServiceBean) {
+        this.accountrServiceBean = accountrServiceBean;
+    }
 
     public String initialize() {
         Optional<Account> accountOptional = accountrServiceBean.select(accountId);
@@ -67,14 +69,6 @@ public class TransactionBean implements Serializable {
 
     public void setAccountId(long accountId) {
         this.accountId = accountId;
-    }
-
-    public long getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(long transactionId) {
-        this.transactionId = transactionId;
     }
 
     public Account getAccount() {
@@ -105,8 +99,17 @@ public class TransactionBean implements Serializable {
     /// ACTION METHODS
 
     public String doSave() {
-        upload();
-        insertOrUpdate();
+        if (part != null) {
+            try {
+                transaction.setReceiptImage(IOUtils.toByteArray(part.getInputStream()));
+            } catch (IOException e) {
+                logger.error("Upload failed:" + e.toString());
+            }
+        }
+
+        if (account != null) {
+            accountrServiceBean.insertTransaction(account, transaction);
+        }
 
         return String.format("account.xhtml?faces-redirect=true&accountId=%d", account.getId());
     }
@@ -118,28 +121,5 @@ public class TransactionBean implements Serializable {
 
         return String.format("account.xhtml?faces-redirect=true&accountId=%d", transaction.getAccount().getId());
     }
-
-    // UTIL
-
-    private void insertOrUpdate() {
-        if (account != null) {
-            accountrServiceBean.insertTransaction(account, transaction);
-        } else if (transaction.getAccount() != null) {
-            accountrServiceBean.updateTransaction(transaction);
-        }
-    }
-
-    private void upload() {
-        if (part != null) {
-            try {
-                transaction.setReceiptImage(IOUtils.toByteArray(part.getInputStream()));
-            } catch (IOException e) {
-                logger.error("Upload failed:" + e.toString());
-            }
-        }
-    }
-
-
-
 
 }
