@@ -1,10 +1,13 @@
 package de.thi.phm6101.accountr.web.model;
 
 import de.thi.phm6101.accountr.domain.Account;
+import de.thi.phm6101.accountr.exception.EntityExistsException;
+import de.thi.phm6101.accountr.exception.EntityNotFoundException;
 import de.thi.phm6101.accountr.service.AccountrServiceBean;
 import de.thi.phm6101.accountr.util.JsfUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.log4j.lf5.util.StreamUtils;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -111,14 +114,23 @@ public class AccountBean implements Serializable {
     }
 
     public String doInsertOrUpdate() {
-        if (accountrServiceBean.exists(account)) {
-            accountrServiceBean.update(account);
-            logger.info("AccountBean: Updated account");
-        } else if (!accountrServiceBean.equalExists(account)) {
-            accountrServiceBean.insert(account);
-            logger.info("AccountBean: Inserted account");
-        } else {
-            logger.error("AccountBean: Cannot insert account");
+
+        try {
+            if (accountrServiceBean.exists(account)) {
+                accountrServiceBean.update(account);
+                logger.info("AccountBean: Updated account");
+            } else if (!accountrServiceBean.equalExists(account)) {
+                accountrServiceBean.insert(account);
+                logger.info("AccountBean: Inserted account");
+            } else {
+                logger.error("AccountBean: Cannot insert account");
+                return "error";
+            }
+        } catch (EntityNotFoundException e) {
+            logger.error(String.format("AccountBean: %s", e));
+            return "error";
+        } catch (EntityExistsException e) {
+            logger.error(String.format("AccountBean: %s", e));
             return "error";
         }
 
@@ -128,7 +140,12 @@ public class AccountBean implements Serializable {
     public String doDelete(Account account) {
         logger.info(String.format("doDelete: accountId:%s", account.getId()));
         if (accountrServiceBean.exists(account)) {
-            accountrServiceBean.delete(account);
+            try {
+                accountrServiceBean.delete(account);
+            } catch (EntityNotFoundException e) {
+                logger.error(String.format("AccountBean: %s", e));
+                return "error";
+            }
         }
         return "accounts.xhtml?faces-redirect=true";
     }

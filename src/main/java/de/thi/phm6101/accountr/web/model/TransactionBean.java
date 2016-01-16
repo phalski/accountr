@@ -2,6 +2,7 @@ package de.thi.phm6101.accountr.web.model;
 
 import de.thi.phm6101.accountr.domain.Account;
 import de.thi.phm6101.accountr.domain.Transaction;
+import de.thi.phm6101.accountr.exception.EntityNotFoundException;
 import de.thi.phm6101.accountr.service.AccountrServiceBean;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
@@ -108,7 +109,12 @@ public class TransactionBean implements Serializable {
         }
 
         if (account != null) {
-            accountrServiceBean.insertTransaction(account, transaction);
+            try {
+                accountrServiceBean.insertTransaction(account, transaction);
+            } catch (EntityNotFoundException e) {
+                logger.error(String.format("TransactionBean: %s", e));
+                return "error";
+            }
         }
 
         return String.format("account.xhtml?faces-redirect=true&accountId=%d", account.getId());
@@ -117,7 +123,12 @@ public class TransactionBean implements Serializable {
     public String doDelete(Transaction transaction) {
         logger.info(String.format("Deleting transaction %d", transaction.getId()));
 
-        accountrServiceBean.deleteTransaction(transaction);
+        try {
+            accountrServiceBean.deleteTransaction(transaction);
+        } catch (EntityNotFoundException e) {
+            logger.error(String.format("TransactionBean: %s", e));
+            return "error";
+        }
 
         return String.format("account.xhtml?faces-redirect=true&accountId=%d", transaction.getAccount().getId());
     }

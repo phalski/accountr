@@ -1,6 +1,7 @@
 package de.thi.phm6101.accountr.web.model;
 
 import de.thi.phm6101.accountr.domain.User;
+import de.thi.phm6101.accountr.exception.EntityExistsException;
 import de.thi.phm6101.accountr.service.UserServiceBean;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -14,6 +15,9 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
+/**
+ * Named bean used for user sign up
+ */
 @Named
 @ViewScoped
 public class UserBean implements Serializable {
@@ -40,11 +44,19 @@ public class UserBean implements Serializable {
         User user = new User();
     }
 
+    /**
+     * Creates user in database
+     * @return outcome
+     */
     public String doSignUp() {
         try {
             userServiceBean.insert(user);
         } catch (NoSuchAlgorithmException e) {
-            LOGGER.error(String.format("Failed to create user %s", user.getName()));
+            LOGGER.error(String.format("Failed to create user %s", e));
+            return "error";
+        } catch (EntityExistsException e) {
+            LOGGER.error(String.format("Failed to create user %s", e));
+            return "error";
         }
         return "/accounts.xhtml?faces-redirect=true";
     }

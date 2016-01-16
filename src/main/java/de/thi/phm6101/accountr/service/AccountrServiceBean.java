@@ -2,6 +2,8 @@ package de.thi.phm6101.accountr.service;
 
 import de.thi.phm6101.accountr.domain.Account;
 import de.thi.phm6101.accountr.domain.Transaction;
+import de.thi.phm6101.accountr.exception.EntityExistsException;
+import de.thi.phm6101.accountr.exception.EntityNotFoundException;
 import de.thi.phm6101.accountr.persistence.DataAccessBean;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -10,7 +12,6 @@ import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class AccountrServiceBean {
     }
 
     @RolesAllowed("User")
-    public Account insert(Account account) {
+    public Account insert(Account account) throws EntityExistsException {
         if (equalExists(account)) {
             throw new EntityExistsException(String.format("Account '%s' already exists.", account.getName()));
         }
@@ -55,7 +56,7 @@ public class AccountrServiceBean {
     }
 
     @RolesAllowed("User")
-    public Account update(Account account) {
+    public Account update(Account account) throws EntityNotFoundException{
         if (!dab.exists(account)) {
             throw new EntityNotFoundException(String.format("Account '%s' does not exist.", account.getName()));
         }
@@ -65,7 +66,7 @@ public class AccountrServiceBean {
     }
 
     @RolesAllowed("User")
-    public void delete(Account account) {
+    public void delete(Account account) throws EntityNotFoundException {
         if (!dab.exists(account)) {
             throw new EntityNotFoundException(String.format("Account '%s' does not exist.", account.getName()));
         }
@@ -96,13 +97,13 @@ public class AccountrServiceBean {
     }
 
     @RolesAllowed("User")
-    public void insertTransaction(Account account, Transaction transaction) {
+    public void insertTransaction(Account account, Transaction transaction) throws EntityNotFoundException {
         account.addTransaction(transaction);
         this.update(account);
     }
 
     @RolesAllowed("User")
-    public Transaction updateTransaction(Transaction transaction) {
+    public Transaction updateTransaction(Transaction transaction) throws EntityNotFoundException {
         if (!dab.exists(transaction)) {
             throw new EntityNotFoundException(String.format("Transaction '%s' does not exist.", transaction.getDescription()));
         }
@@ -112,7 +113,7 @@ public class AccountrServiceBean {
     }
 
     @RolesAllowed("User")
-    public void deleteTransaction(Transaction transaction) {
+    public void deleteTransaction(Transaction transaction) throws EntityNotFoundException{
         Account account = transaction.getAccount();
         account.removeTransaction(transaction);
         this.update(account);
