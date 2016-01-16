@@ -132,7 +132,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19</version>
                 <configuration>
-                    <skipTests>true</skipTests>
+                    <!--<skipTests>true</skipTests>-->
                     <!-- Fork every test because it will launch a separate AS instance -->
                     <forkMode>always</forkMode>
                     <systemPropertyVariables>

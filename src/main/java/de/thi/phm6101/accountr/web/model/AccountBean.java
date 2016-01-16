@@ -2,6 +2,7 @@ package de.thi.phm6101.accountr.web.model;
 
 import de.thi.phm6101.accountr.domain.Account;
 import de.thi.phm6101.accountr.service.AccountrServiceBean;
+import de.thi.phm6101.accountr.util.JsfUtil;
 import de.thi.phm6101.accountr.validation.MessageFactory;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -22,16 +23,19 @@ public class AccountBean implements Serializable {
 
     private static final Logger logger = LogManager.getLogger(AccountBean.class);
 
-    @Inject
     private AccountrServiceBean accountrServiceBean;
+    private JsfUtil jsfUtil;
 
     private Account account;
-
     private long accountId;
-
     private List<Account> accountList;
-
     private String search = "";
+
+    @Inject
+    public AccountBean(AccountrServiceBean accountrServiceBean, JsfUtil jsfUtil) {
+        this.accountrServiceBean = accountrServiceBean;
+        this.jsfUtil = jsfUtil;
+    }
 
     public long getAccountId() {
         return accountId;
@@ -82,9 +86,11 @@ public class AccountBean implements Serializable {
     public String initialize() {
         Optional<Account> optionalAccount = accountrServiceBean.select(accountId);
 
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        String viewId = facesContext.getViewRoot().getViewId();
-        if (!viewId.equals("/account-form.xhtml") && !optionalAccount.isPresent()) {
+        Optional<String> viewIdOptional = jsfUtil.getCurrentViewId();
+        if (viewIdOptional.isPresent()
+                && !viewIdOptional.get().equals("/account-form.xhtml")
+                && !optionalAccount.isPresent())
+        {
             return "error";
         }
 
@@ -100,7 +106,8 @@ public class AccountBean implements Serializable {
     }
 
     public void initializeList() {
-        accountList = getSearch().isEmpty() ? accountrServiceBean.select() : accountrServiceBean.select(getSearch());
+        String search = getSearch();
+        accountList = (search == null || search.isEmpty()) ? accountrServiceBean.select() : accountrServiceBean.select(search);
         logger.info(String.format("AccountBean: Current list contains %d accounts", accountList.size()));
     }
 
@@ -109,12 +116,15 @@ public class AccountBean implements Serializable {
     }
 
     public String doInsertOrUpdate() {
-        logger.info(String.format("Account %s %s %s", account.getId(), account.getName(), account.getDescription()));
-
         if (accountrServiceBean.exists(account)) {
             accountrServiceBean.update(account);
-        } else {
+            logger.info("AccountBean: Updated account");
+        } else if (!accountrServiceBean.equalExists(account)) {
             accountrServiceBean.insert(account);
+            logger.info("AccountBean: Inserted account");
+        } else {
+            logger.error("AccountBean: Cannot insert account");
+            return "error";
         }
 
         return "accounts.xhtml?faces-redirect=true";
