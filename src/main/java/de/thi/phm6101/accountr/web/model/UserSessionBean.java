@@ -53,8 +53,7 @@ public class UserSessionBean implements Serializable {
         try {
             request.login(this.login, this.password);
         } catch (ServletException e) {
-            e.printStackTrace();
-            LOGGER.error(e);
+            LOGGER.error("UserSessionBean: " + e);
             return "/login-error.xhtml";
         }
         if("/login.xhtml".equals(context.getViewRoot().getViewId()) || "/login-error.xhtml".equals(context.getViewRoot().getViewId())) {

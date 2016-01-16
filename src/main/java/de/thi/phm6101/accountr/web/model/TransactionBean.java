@@ -104,7 +104,8 @@ public class TransactionBean implements Serializable {
             try {
                 transaction.setReceiptImage(IOUtils.toByteArray(part.getInputStream()));
             } catch (IOException e) {
-                logger.error("Upload failed:" + e.toString());
+                logger.error("Upload failed:" + e);
+                return "error";
             }
         }
 

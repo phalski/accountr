@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.persistence.Transient;
 import java.util.Optional;
 
 @Stateless
@@ -17,6 +18,7 @@ public class JsfUtil {
      * Encapsulated for test mocking
      * @return view id
      */
+    @Transient
     public Optional<String> getCurrentViewId() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         UIViewRoot uiViewRoot = facesContext.getViewRoot();
