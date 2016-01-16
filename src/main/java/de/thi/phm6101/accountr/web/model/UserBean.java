@@ -48,9 +48,6 @@ public class UserBean implements Serializable {
     public String doSignUp() {
         try {
             userServiceBean.insert(user);
-        } catch (NoSuchAlgorithmException e) {
-            LOGGER.error(String.format("Failed to create user %s", e));
-            return "error";
         } catch (EntityExistsException e) {
             LOGGER.error(String.format("Failed to create user %s", e));
             return "error";
