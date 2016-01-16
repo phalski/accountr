@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Stateless
 @PermitAll
-public class JsfUtil implements Serializable {
+public class JsfUtil {
 
     /**
      * Returns current view id
