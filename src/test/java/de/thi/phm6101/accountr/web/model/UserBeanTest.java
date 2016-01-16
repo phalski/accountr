@@ -37,12 +37,12 @@ public class UserBeanTest {
      */
 
     @Test
-    void thatNotExistingUserCanSignUp() throws Exception {
+    public void thatNotExistingUserCanSignUp() throws Exception {
 
     }
 
     @Test
-    void thatExistingUserCanNotSignUp() throws Exception {
+    public void thatExistingUserCanNotSignUp() throws Exception {
 
     }
 }

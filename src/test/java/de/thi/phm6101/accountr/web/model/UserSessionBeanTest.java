@@ -49,6 +49,7 @@ public class UserSessionBeanTest {
      * method under test: doSignOut
      */
 
+    @Test
     public void thatSignedInUserCanSignOut() throws Exception {
 
     }

@@ -69,7 +69,8 @@ public class UserSessionBean implements Serializable {
         try {
             externalContext.getResponseOutputWriter().write("<html><head><meta http-equiv='refresh' content='0;accounts.xhtml'></head></html>");
         } catch (IOException e) {
-            LOGGER.error("Logout error");
+            LOGGER.error(String.format("UserSessionBean: %s", e));
+            return "error";
         } finally {
             facesContext.responseComplete();
         }
