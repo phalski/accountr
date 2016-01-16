@@ -5,7 +5,6 @@ import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.persistence.Transient;
 import java.util.Optional;
 
@@ -24,4 +23,5 @@ public class JsfUtil {
         UIViewRoot uiViewRoot = facesContext.getViewRoot();
         return (uiViewRoot == null) ? Optional.empty() : Optional.ofNullable(uiViewRoot.getViewId());
     }
+    
 }

@@ -6,7 +6,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.Part;
 
@@ -21,7 +20,7 @@ public class ImageValidator implements Validator {
     private static long MAX_FILE_SIZE = 1000000;
 
     @Override
-    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+    public void validate(FacesContext context, UIComponent component, Object value) {
 
         Part file = (Part) value;
         if (file != null) {

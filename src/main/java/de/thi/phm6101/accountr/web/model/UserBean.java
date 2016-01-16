@@ -7,13 +7,12 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
-import java.util.Optional;
+
 
 /**
  * Named bean used for user sign up

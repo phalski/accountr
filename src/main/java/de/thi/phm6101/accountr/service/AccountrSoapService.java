@@ -1,7 +1,6 @@
 package de.thi.phm6101.accountr.service;
 
 import de.thi.phm6101.accountr.domain.Account;
-import de.thi.phm6101.accountr.domain.Transaction;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

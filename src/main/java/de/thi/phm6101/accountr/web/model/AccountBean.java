@@ -7,7 +7,6 @@ import de.thi.phm6101.accountr.service.AccountrServiceBean;
 import de.thi.phm6101.accountr.util.JsfUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.lf5.util.StreamUtils;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -22,7 +21,7 @@ import java.util.*;
 @ViewScoped
 public class AccountBean implements Serializable {
 
-    private static final Logger logger = LogManager.getLogger(AccountBean.class);
+    private static final Logger LOGGER = LogManager.getLogger(AccountBean.class);
 
     private AccountrServiceBean accountrServiceBean;
     private JsfUtil jsfUtil;
@@ -111,9 +110,9 @@ public class AccountBean implements Serializable {
         setAccount(optionalAccount.orElse(new Account()));
 
         if (getIsNewAccount()) {
-            logger.info(String.format("AccountBean: Account is new"));
+            LOGGER.info(String.format("AccountBean: Account is new"));
         } else {
-            logger.info(String.format("AccountBean: Account has ID '%d'", accountId));
+            LOGGER.info(String.format("AccountBean: Account has ID '%d'", accountId));
         }
 
         return null;
@@ -126,7 +125,7 @@ public class AccountBean implements Serializable {
     public void initializeList() {
         String currentSearch = getSearch();
         accountList = (currentSearch == null || currentSearch.isEmpty()) ? accountrServiceBean.select() : accountrServiceBean.select(currentSearch);
-        logger.info(String.format("AccountBean: Current list contains %d accounts", accountList.size()));
+        LOGGER.info(String.format("AccountBean: Current list contains %d accounts", accountList.size()));
     }
 
     public String doSearch() {
@@ -138,19 +137,19 @@ public class AccountBean implements Serializable {
         try {
             if (accountrServiceBean.exists(account)) {
                 accountrServiceBean.update(account);
-                logger.info("AccountBean: Updated account");
+                LOGGER.info("AccountBean: Updated account");
             } else if (!accountrServiceBean.equalExists(account)) {
                 accountrServiceBean.insert(account);
-                logger.info("AccountBean: Inserted account");
+                LOGGER.info("AccountBean: Inserted account");
             } else {
-                logger.error("AccountBean: Cannot insert account");
+                LOGGER.error("AccountBean: Cannot insert account");
                 return "error";
             }
         } catch (EntityNotFoundException e) {
-            logger.error(String.format("AccountBean: %s", e));
+            LOGGER.error(String.format("AccountBean: %s", e));
             return "error";
         } catch (EntityExistsException e) {
-            logger.error(String.format("AccountBean: %s", e));
+            LOGGER.error(String.format("AccountBean: %s", e));
             return "error";
         }
 
@@ -158,12 +157,12 @@ public class AccountBean implements Serializable {
     }
 
     public String doDelete(Account account) {
-        logger.info(String.format("doDelete: accountId:%s", account.getId()));
+        LOGGER.info(String.format("doDelete: accountId:%s", account.getId()));
         if (accountrServiceBean.exists(account)) {
             try {
                 accountrServiceBean.delete(account);
             } catch (EntityNotFoundException e) {
-                logger.error(String.format("AccountBean: %s", e));
+                LOGGER.error(String.format("AccountBean: %s", e));
                 return "error";
             }
         }

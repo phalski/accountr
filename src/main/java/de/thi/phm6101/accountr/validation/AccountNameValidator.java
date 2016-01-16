@@ -10,7 +10,6 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.print.attribute.standard.Severity;
 
 /**
  * Validator to ensure unique account name
@@ -23,7 +22,7 @@ public class AccountNameValidator implements Validator {
     private AccountrServiceBean accountrServiceBean;
 
     @Override
-    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+    public void validate(FacesContext context, UIComponent component, Object value) {
 
         String name = (String) value;
 

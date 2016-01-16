@@ -25,7 +25,7 @@ import java.util.Optional;
 @ViewScoped
 public class TransactionBean implements Serializable {
 
-    private static final Logger logger = LogManager.getLogger(TransactionBean.class);
+    private static final Logger LOGGER = LogManager.getLogger(TransactionBean.class);
 
     private AccountrServiceBean accountrServiceBean;
 
@@ -52,9 +52,9 @@ public class TransactionBean implements Serializable {
         if (accountOptional.isPresent()) {
             account = accountOptional.get();
             transaction = new Transaction();
-            logger.info(String.format("TransactionBean: Prepared new transaction for account '%d'", accountId));
+            LOGGER.info(String.format("TransactionBean: Prepared new transaction for account '%d'", accountId));
         } else {
-            logger.error(String.format("TransactionBean: No account found for id %d", accountId));
+            LOGGER.error(String.format("TransactionBean: No account found for id %d", accountId));
             return "error";
         }
 
@@ -104,7 +104,7 @@ public class TransactionBean implements Serializable {
             try {
                 transaction.setReceiptImage(IOUtils.toByteArray(part.getInputStream()));
             } catch (IOException e) {
-                logger.error("Upload failed:" + e);
+                LOGGER.error("Upload failed:" + e);
                 return "error";
             }
         }
@@ -113,7 +113,7 @@ public class TransactionBean implements Serializable {
             try {
                 accountrServiceBean.insertTransaction(account, transaction);
             } catch (EntityNotFoundException e) {
-                logger.error(String.format("TransactionBean: %s", e));
+                LOGGER.error(String.format("TransactionBean: %s", e));
                 return "error";
             }
         }
@@ -122,12 +122,12 @@ public class TransactionBean implements Serializable {
     }
 
     public String doDelete(Transaction transaction) {
-        logger.info(String.format("Deleting transaction %d", transaction.getId()));
+        LOGGER.info(String.format("Deleting transaction %d", transaction.getId()));
 
         try {
             accountrServiceBean.deleteTransaction(transaction);
         } catch (EntityNotFoundException e) {
-            logger.error(String.format("TransactionBean: %s", e));
+            LOGGER.error(String.format("TransactionBean: %s", e));
             return "error";
         }
 
