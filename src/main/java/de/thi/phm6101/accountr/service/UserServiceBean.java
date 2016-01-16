@@ -40,7 +40,7 @@ public class UserServiceBean {
         try {
             user.setPassword(encodePassword(user.getPassword()));
         } catch (NoSuchAlgorithmException e) {
-            LOGGER.warn("UserServiceBean: storing unencrypted password");
+            LOGGER.warn("UserServiceBean: storing unencrypted password - " + e);
             user.setPassword(user.getPassword());
         }
 

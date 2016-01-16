@@ -5,23 +5,22 @@ import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
-import javax.persistence.Transient;
+import java.io.Serializable;
 import java.util.Optional;
 
 @Stateless
 @PermitAll
-public class JsfUtil {
+public class JsfUtil implements Serializable {
 
     /**
      * Returns current view id
      * Encapsulated for test mocking
      * @return view id
      */
-    @Transient
     public Optional<String> getCurrentViewId() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         UIViewRoot uiViewRoot = facesContext.getViewRoot();
         return (uiViewRoot == null) ? Optional.empty() : Optional.ofNullable(uiViewRoot.getViewId());
     }
-    
+
 }
