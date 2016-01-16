@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.*;
 
@@ -24,6 +25,8 @@ public class AccountBean implements Serializable {
     private static final Logger LOGGER = LogManager.getLogger(AccountBean.class);
 
     private AccountrServiceBean accountrServiceBean;
+
+    @Transient
     private JsfUtil jsfUtil;
 
     private Account account;
