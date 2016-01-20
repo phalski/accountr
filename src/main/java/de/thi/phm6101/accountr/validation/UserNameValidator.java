@@ -18,8 +18,12 @@ import javax.inject.Named;
 @RequestScoped
 public class UserNameValidator implements Validator {
 
-    @Inject
     private UserServiceBean userServiceBean;
+
+    @Inject
+    public UserNameValidator(UserServiceBean userServiceBean) {
+        this.userServiceBean = userServiceBean;
+    }
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) {

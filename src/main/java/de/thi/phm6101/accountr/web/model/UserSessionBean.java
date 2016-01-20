@@ -1,5 +1,6 @@
 package de.thi.phm6101.accountr.web.model;
 
+import de.thi.phm6101.accountr.util.JsfUtil;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -8,8 +9,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import javax.persistence.Transient;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -24,9 +27,17 @@ public class UserSessionBean implements Serializable {
 
     private static final Logger LOGGER = LogManager.getLogger(UserSessionBean.class);
 
+    @Transient
+    private JsfUtil jsfUtil;
+
     private String login;
 
     private String password;
+
+    @Inject
+    public UserSessionBean(JsfUtil jsfUtil) {
+        this.jsfUtil = jsfUtil;
+    }
 
     public String getLogin() {
         return login;
@@ -45,24 +56,20 @@ public class UserSessionBean implements Serializable {
     }
 
     public String doSignIn() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest)
-                context.getExternalContext().getRequest();
-
         try {
-            request.login(this.login, this.password);
+            jsfUtil.getRequest().login(this.login, this.password);
         } catch (ServletException e) {
             LOGGER.error("UserSessionBean: " + e);
             return "/login-error.xhtml";
         }
-        if("/login.xhtml".equals(context.getViewRoot().getViewId()) || "/login-error.xhtml".equals(context.getViewRoot().getViewId())) {
+        if ("/login.xhtml".equals(jsfUtil.getCurrentViewId().get()) || "/login-error.xhtml".equals(jsfUtil.getCurrentViewId().get())) {
             return "/accounts.xhtml";
         }
         return null;
     }
 
     public String doSignOut() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
+        FacesContext facesContext = jsfUtil.getContext();
         ExternalContext externalContext = facesContext.getExternalContext();
         externalContext.invalidateSession();
         externalContext.setResponseStatus(401);

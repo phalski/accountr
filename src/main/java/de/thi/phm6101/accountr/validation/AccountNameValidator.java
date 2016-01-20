@@ -18,8 +18,12 @@ import javax.inject.Named;
 @RequestScoped
 public class AccountNameValidator implements Validator {
 
-    @Inject
     private AccountrServiceBean accountrServiceBean;
+
+    @Inject
+    public AccountNameValidator(AccountrServiceBean accountrServiceBean) {
+        this.accountrServiceBean = accountrServiceBean;
+    }
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) {
@@ -27,7 +31,7 @@ public class AccountNameValidator implements Validator {
         String name = (String) value;
 
         if (!accountrServiceBean.select(name).isEmpty()) {
-            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Name is not available", "Name is not available");
+            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Name is not available", "Name is not available");
 
             throw new ValidatorException(facesMessage);
         }

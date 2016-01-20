@@ -21,4 +21,11 @@ public class EntityFactory {
         transaction.setDate(new Date(Math.abs(System.currentTimeMillis() - RANDOM.nextLong())));
         return transaction;
     }
+
+    static public User newUser() {
+        User user = new User();
+        user.setName(String.format("Name - %s", UUID.randomUUID().toString()));
+        user.setPassword(String.format("Password - %s", UUID.randomUUID().toString()));
+        return user;
+    }
 }

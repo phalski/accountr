@@ -11,8 +11,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
-
 
 /**
  * Named bean used for user sign up
@@ -23,10 +21,14 @@ public class UserBean implements Serializable {
 
     private static final Logger LOGGER = LogManager.getLogger(UserBean.class);
 
-    @Inject
     private UserServiceBean userServiceBean;
 
     private User user;
+
+    @Inject
+    public UserBean(UserServiceBean userServiceBean) {
+        this.userServiceBean = userServiceBean;
+    }
 
     public User getUser() {
         return user;

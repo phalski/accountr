@@ -16,6 +16,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.UserTransaction;
+
+import java.util.Optional;
+import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
 
@@ -25,11 +31,19 @@ import static org.junit.Assert.*;
 @RunWith(Arquillian.class)
 public class UserServiceBeanTest {
 
+    private int NUMBER_OF_USERS = 5;
+
     /**
      * class under test
      */
     @Inject
     UserServiceBean userServiceBean;
+
+    @PersistenceContext
+    EntityManager em;
+
+    @Inject
+    UserTransaction utx;
 
     @Deployment
     public static WebArchive createDeployment() {
@@ -42,6 +56,7 @@ public class UserServiceBeanTest {
                 .addClass(Account.class)
                 .addClass(Transaction.class)
                 .addClass(UserServiceBean.class)
+                .addClass(EntityFactory.class)
                 .addClass(EntityExistsException.class)
                 .addClass(EntityNotFoundException.class)
                 .addAsResource("META-INF/persistence.test.xml", "META-INF/persistence.xml")
@@ -51,16 +66,127 @@ public class UserServiceBeanTest {
 
     @Before
     public void setUp() throws Exception {
-
+        clearDatabase();
+        prepareDatabase();
+        startTransaction();
     }
 
     @After
     public void tearDown() throws Exception {
+        commitTransaction();
+    }
 
+    /// UTIL
+
+    private void startTransaction() throws Exception {
+        utx.begin();
+        em.joinTransaction();
+    }
+
+    private void commitTransaction() throws Exception {
+        utx.commit();
+    }
+
+    private void clearDatabase() throws Exception {
+        startTransaction();
+        em.createQuery("DELETE FROM UserRole").executeUpdate();
+        em.createQuery("DELETE FROM User" ).executeUpdate();
+        commitTransaction();
+    }
+
+    private void prepareDatabase() throws Exception {
+        startTransaction();
+        IntStream.range(0, NUMBER_OF_USERS).forEach(i -> {
+            User user = EntityFactory.newUser();
+            em.persist(user);
+
+        });
+        commitTransaction();
+    }
+
+    /**
+     * method under test: select
+     *
+     */
+
+    @Test
+    public void thatAUserCanBeSelectedByID() throws Exception {
+        User user = EntityFactory.newUser();
+        user = userServiceBean.insert(user);
+
+        Optional<User> userOptional = userServiceBean.select(user.getId());
+
+        assertTrue(userOptional.isPresent());
     }
 
     @Test
-    public void that() throws Exception {
+    public void thatANotExistingUserCannotBeSelected() throws Exception {
+        User user = EntityFactory.newUser(); // user without id
 
+        Optional<User> userOptional = userServiceBean.select(user.getId());
+
+        assertFalse(userOptional.isPresent());
+    }
+
+    /**
+     * method under test: select
+     *
+     */
+
+    @Test
+    public void thatAUserCanBeInserted() throws Exception {
+        User user = EntityFactory.newUser();
+
+        try {
+            user = userServiceBean.insert(user);
+        } catch (Exception e) {
+            fail();
+        }
+
+        Optional<User> userOptional = userServiceBean.select(user.getId());
+        assertTrue(userOptional.isPresent());
+        assertEquals(user, userOptional.get());
+    }
+
+    @Test
+    public void thatAUserCannotBeInsertedTwice() throws Exception {
+        User user = EntityFactory.newUser();
+
+        try {
+            user = userServiceBean.insert(user);
+        } catch (Exception e) {
+            fail();
+        }
+
+        try {
+            user = userServiceBean.insert(user);
+            fail();
+        } catch (Exception e) {
+
+        }
+    }
+
+    /**
+     * method under test: select
+     *
+     */
+
+    @Test
+    public void thatEqualExistsReturnsTrueWhenEqualUserExists() throws Exception {
+        User user = EntityFactory.newUser();
+        user = userServiceBean.insert(user);
+
+        boolean exists = userServiceBean.equalExists(user);
+
+        assertTrue(exists);
+    }
+
+    @Test
+    public void thatEqualExistsReturnsFAlseWhenEqualUserNotExists() throws Exception {
+        User user = EntityFactory.newUser();
+
+        boolean exists = userServiceBean.equalExists(user);
+
+        assertFalse(exists);
     }
 }
