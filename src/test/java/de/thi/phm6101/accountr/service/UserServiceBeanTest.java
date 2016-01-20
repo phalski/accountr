@@ -25,9 +25,6 @@ import java.util.stream.IntStream;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by philipp on 16/01/16.
- */
 @RunWith(Arquillian.class)
 public class UserServiceBeanTest {
 
@@ -90,7 +87,7 @@ public class UserServiceBeanTest {
     private void clearDatabase() throws Exception {
         startTransaction();
         em.createQuery("DELETE FROM UserRole").executeUpdate();
-        em.createQuery("DELETE FROM User" ).executeUpdate();
+        em.createQuery("DELETE FROM User").executeUpdate();
         commitTransaction();
     }
 
@@ -106,7 +103,6 @@ public class UserServiceBeanTest {
 
     /**
      * method under test: select
-     *
      */
 
     @Test
@@ -130,7 +126,6 @@ public class UserServiceBeanTest {
 
     /**
      * method under test: select
-     *
      */
 
     @Test
@@ -153,13 +148,13 @@ public class UserServiceBeanTest {
         User user = EntityFactory.newUser();
 
         try {
-            user = userServiceBean.insert(user);
+            userServiceBean.insert(user);
         } catch (Exception e) {
             fail();
         }
 
         try {
-            user = userServiceBean.insert(user);
+            userServiceBean.insert(user);
             fail();
         } catch (Exception e) {
 
@@ -168,7 +163,6 @@ public class UserServiceBeanTest {
 
     /**
      * method under test: select
-     *
      */
 
     @Test

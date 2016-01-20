@@ -30,7 +30,7 @@ public class ImageValidatorTest {
     public void thatValidationSucceedsForCorrectSizedJpeg() throws Exception {
         Part mockedPart = mock(Part.class);
         when(mockedPart.getContentType()).thenReturn("image/jpeg");
-        when(mockedPart.getSize()).thenReturn((long)1337);
+        when(mockedPart.getSize()).thenReturn((long) 1337);
 
         try {
             imageValidator.validate(null, null, mockedPart);
@@ -43,7 +43,7 @@ public class ImageValidatorTest {
     public void thatValidationSucceedsForCorrectSizedPng() throws Exception {
         Part mockedPart = mock(Part.class);
         when(mockedPart.getContentType()).thenReturn("image/png");
-        when(mockedPart.getSize()).thenReturn((long)1337);
+        when(mockedPart.getSize()).thenReturn((long) 1337);
 
         try {
             imageValidator.validate(null, null, mockedPart);
@@ -56,7 +56,7 @@ public class ImageValidatorTest {
     public void thatValidationSucceedsForCorrectSizedGif() throws Exception {
         Part mockedPart = mock(Part.class);
         when(mockedPart.getContentType()).thenReturn("image/gif");
-        when(mockedPart.getSize()).thenReturn((long)1337);
+        when(mockedPart.getSize()).thenReturn((long) 1337);
 
         try {
             imageValidator.validate(null, null, mockedPart);
@@ -69,7 +69,7 @@ public class ImageValidatorTest {
     public void thatValidationFailsForWrongFormat() throws Exception {
         Part mockedPart = mock(Part.class);
         when(mockedPart.getContentType()).thenReturn("image/whatever");
-        when(mockedPart.getSize()).thenReturn((long)1337);
+        when(mockedPart.getSize()).thenReturn((long) 1337);
 
         try {
             imageValidator.validate(null, null, mockedPart);
@@ -83,7 +83,7 @@ public class ImageValidatorTest {
     public void thatValidationFailsForWrongSize() throws Exception {
         Part mockedPart = mock(Part.class);
         when(mockedPart.getContentType()).thenReturn("image/jpeg");
-        when(mockedPart.getSize()).thenReturn((long)999999999);
+        when(mockedPart.getSize()).thenReturn((long) 999999999);
 
         try {
             imageValidator.validate(null, null, mockedPart);
