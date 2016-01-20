@@ -31,7 +31,7 @@ public class UserNameValidator implements Validator {
         String name = (String) value;
 
         if (!userServiceBean.select(name).isEmpty()) {
-            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Name is not available", "Name is not available");
+            FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Name is not available", "Name is not available");
 
             throw new ValidatorException(facesMessage);
         }

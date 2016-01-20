@@ -45,6 +45,7 @@ public class UserBean implements Serializable {
 
     /**
      * Creates user in database
+     *
      * @return outcome
      */
     public String doSignUp() {

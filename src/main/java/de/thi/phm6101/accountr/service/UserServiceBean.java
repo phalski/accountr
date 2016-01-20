@@ -7,7 +7,9 @@ import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+
 import de.thi.phm6101.accountr.exception.EntityExistsException;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
@@ -55,6 +57,7 @@ public class UserServiceBean {
 
     /**
      * Password hashing
+     *
      * @param password Password
      * @return hashed password
      * @throws NoSuchAlgorithmException

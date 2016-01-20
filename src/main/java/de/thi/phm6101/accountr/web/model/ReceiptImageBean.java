@@ -28,6 +28,7 @@ public class ReceiptImageBean implements Serializable {
 
     /**
      * Returns an image from database as streamed content. This is necessary for rendering image with primefaces.
+     *
      * @return image content
      * @throws IOException
      */
@@ -37,8 +38,7 @@ public class ReceiptImageBean implements Serializable {
         if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
             // So, we're rendering the view. Return a stub StreamedContent so that it will generate right URL.
             return new DefaultStreamedContent();
-        }
-        else {
+        } else {
             String id = context.getExternalContext().getRequestParameterMap().get("transactionID");
             Optional<Transaction> transactionOptional = accountrServiceBean.selectTransaction(Long.valueOf(id));
             return new DefaultStreamedContent(new ByteArrayInputStream(transactionOptional.get().getReceiptImage()));

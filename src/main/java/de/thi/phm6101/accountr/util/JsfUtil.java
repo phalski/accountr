@@ -17,6 +17,7 @@ public class JsfUtil {
     /**
      * Returns current view id
      * Encapsulated for test mocking
+     *
      * @return view id
      */
     public Optional<String> getCurrentViewId() {

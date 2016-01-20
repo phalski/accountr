@@ -25,8 +25,9 @@ public class DataAccessBean {
 
     /**
      * Returns all entities of a JPA class
+     *
      * @param clazz JPA entity class
-     * @param <T> JPA entity
+     * @param <T>   JPA entity
      * @return Entity list
      */
     public <T extends AbstractEntity> List<T> getAll(Class<T> clazz) {
@@ -37,16 +38,16 @@ public class DataAccessBean {
 
     /**
      * Executes named query for JPA class
-     * @param clazz JPA entity class
-     * @param queryName name of query
+     *
+     * @param clazz      JPA entity class
+     * @param queryName  name of query
      * @param parameters parameters of query
-     * @param <T> JPA entity
+     * @param <T>        JPA entity
      * @return Entity result list
      */
     public <T extends AbstractEntity> List<T> namedQuery(Class<T> clazz, String queryName, Map<String, Object> parameters) {
         TypedQuery<T> query = em.createNamedQuery(queryName, clazz);
-        for (Map.Entry<String, Object> parameter : parameters.entrySet())
-        {
+        for (Map.Entry<String, Object> parameter : parameters.entrySet()) {
             query.setParameter(parameter.getKey(), parameter.getValue());
         }
         return query.getResultList();

@@ -93,6 +93,7 @@ public class Account extends AbstractEntity {
 
     /**
      * Calculates balance over all transactions
+     *
      * @return balance
      */
     public double getBalance() {

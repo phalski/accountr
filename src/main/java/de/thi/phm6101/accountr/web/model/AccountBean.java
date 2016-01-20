@@ -74,6 +74,7 @@ public class AccountBean implements Serializable {
 
     /**
      * Returns all currency codes for usage in EL
+     *
      * @return currency code list
      */
     public List<String> getCurrencyCodeList() {
@@ -85,6 +86,7 @@ public class AccountBean implements Serializable {
 
     /**
      * Returns currency symbol for given code
+     *
      * @param currencyCode currency code
      * @return currency symbol or empty string if not found
      */
@@ -97,6 +99,7 @@ public class AccountBean implements Serializable {
 
     /**
      * Loads account from db or sets a new one. Also ensures redirection if view is not account-form
+     *
      * @return outcome
      */
     public String initialize() {
@@ -105,8 +108,7 @@ public class AccountBean implements Serializable {
         Optional<String> viewIdOptional = jsfUtil.getCurrentViewId();
         if (viewIdOptional.isPresent()
                 && !"/account-form.xhtml".equals(viewIdOptional.get())
-                && !optionalAccount.isPresent())
-        {
+                && !optionalAccount.isPresent()) {
             return "error";
         }
 
@@ -123,6 +125,7 @@ public class AccountBean implements Serializable {
 
     /**
      * Evaluates search GET parameter and fetches matching entities. Loads all entities if search parameter not present.
+     *
      * @return outcome
      */
     public void initializeList() {
