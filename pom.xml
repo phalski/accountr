@@ -95,7 +95,7 @@
 
     </dependencies>
     <build>
-        <finalName>accountr</finalName>
+        <finalName>accountr-${version}</finalName>
 
 
         <plugins>
