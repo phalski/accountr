@@ -4,10 +4,8 @@ package de.thi.phm6101.accountr.util;
 import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.faces.component.UIViewRoot;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-import java.io.Serializable;
 import java.util.Optional;
 
 @Stateless
